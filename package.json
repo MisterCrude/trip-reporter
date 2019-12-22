@@ -21,9 +21,9 @@
         "typescript": "~3.7.2"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "rreact-app-rewired test -- --coverage",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -45,5 +45,8 @@
         "hooks": {
             "pre-commit": "pretty-quick --staged"
         }
+    },
+    "devDependencies": {
+        "react-app-rewired": "^2.1.5"
     }
 }
