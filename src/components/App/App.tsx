@@ -2,6 +2,7 @@ import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { Container } from "@material-ui/core";
+import ModalBox from "@src/components/ModalBox";
 import TripList from "@src/components/TripList";
 
 const App: React.FC = () => {
@@ -13,6 +14,7 @@ const App: React.FC = () => {
                     <TripList />
                 </main>
             </Container>
+            <ModalBox />
         </>
     );
 };
