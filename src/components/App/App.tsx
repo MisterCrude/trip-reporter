@@ -1,8 +1,8 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
-import { CheckCircle, FavoriteBorder, Favorite } from "@material-ui/icons";
-import { Container, Card, CardContent, Typography, Divider, Grid, Chip, IconButton } from "@material-ui/core";
+
+import { Container, Grid } from "@material-ui/core";
+import Trip from "@src/components/Trip";
 
 const Trips = [
     {
@@ -64,70 +64,6 @@ const Trips = [
     },
 ];
 
-const favoriteTrips = ["1", "2"];
-
-// TODO move this function to select in redux layer
-const isFavoriteTrip = (tripId: string) => favoriteTrips.includes(tripId);
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            cursor: "pointer",
-        },
-        header: {
-            display: "flex",
-            justifyContent: "space-between",
-        },
-        description: {
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(1),
-        },
-        chip: {
-            "&:not(:first-of-type)": {
-                marginLeft: theme.spacing(1),
-            },
-        },
-        favoriteButton: {
-            marginLeft: theme.spacing(2),
-        },
-    }),
-);
-
-const TripComponent: React.FC<{ tripData: any }> = ({ tripData }) => {
-    const classes = useStyles();
-    const { id, name, visitedCountries, started, finished, description } = tripData;
-
-    return (
-        <Card className={classes.root}>
-            <CardContent>
-                <div className={classes.header}>
-                    <Typography component="h5" variant="h5">
-                        {name}
-                    </Typography>
-                    <IconButton className={classes.favoriteButton}>
-                        {isFavoriteTrip(id) ? <Favorite color="error" /> : <FavoriteBorder />}
-                    </IconButton>
-                </div>
-                <Typography variant="subtitle1" color="textSecondary">
-                    From <strong>{started}</strong> to <strong>{finished}</strong>
-                </Typography>
-
-                <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
-                    {description}
-                </Typography>
-            </CardContent>
-            <Divider />
-            <CardContent>
-                {Object.values(visitedCountries)
-                    .slice(0, 8)
-                    .map((countryName: any) => (
-                        <Chip key={countryName} icon={<CheckCircle />} label={countryName} className={classes.chip} />
-                    ))}
-            </CardContent>
-        </Card>
-    );
-};
-
 const App: React.FC = () => {
     return (
         <>
@@ -137,7 +73,7 @@ const App: React.FC = () => {
                     <Grid container spacing={2} direction="column">
                         {Trips.map(tripData => (
                             <Grid item key={tripData.id}>
-                                <TripComponent tripData={tripData} />
+                                <Trip tripData={tripData} />
                             </Grid>
                         ))}
                     </Grid>
