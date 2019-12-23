@@ -1,6 +1,7 @@
 import React from "react";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 
+import { ITrip } from "@src/types/trip";
 import { CheckCircle, FavoriteBorder, Favorite } from "@material-ui/icons";
 import { Card, CardContent, Typography, Divider, Chip, IconButton } from "@material-ui/core";
 
@@ -34,7 +35,7 @@ const favoriteTrips = ["1", "2"];
 const isFavoriteTrip = (tripId: string) => favoriteTrips.includes(tripId);
 
 interface Props {
-    tripData: any;
+    tripData: ITrip;
 }
 
 const Trip: React.FC<Props> = ({ tripData }) => {

@@ -1,10 +1,11 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
+import { ITrip } from "@src/types/trip";
 import { Container, Grid } from "@material-ui/core";
 import Trip from "@src/components/Trip";
 
-const Trips = [
+const Trips: Array<ITrip> = [
     {
         id: "1",
         name: "Trip one",
