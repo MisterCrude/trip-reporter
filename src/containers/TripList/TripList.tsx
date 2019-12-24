@@ -1,5 +1,7 @@
 import React from "react";
+import { useDispatch } from "@src/hooks/dispatch";
 
+import { setShowModal } from "@src/store/app/actions";
 import { ITrip } from "@src/types/trip";
 import { Grid } from "@material-ui/core";
 import Trip from "@src/components/Trip";
@@ -65,16 +67,15 @@ const Trips: Array<ITrip> = [
     },
 ];
 
-interface Props {
-    // TODO get props form store
-}
+const TripList: React.FC = () => {
+    const triggerModal = useDispatch(setShowModal);
 
-// TODO connect here, it is smart component
-const TripList: React.FC<Props> = () => {
+    const handleTripClick = (id: string) => triggerModal(true);
+
     return (
         <Grid container spacing={2} direction="column">
             {Trips.map(tripData => (
-                <Grid item key={tripData.id}>
+                <Grid item key={tripData.id} onClick={() => handleTripClick(tripData.id)}>
                     <Trip tripData={tripData} />
                 </Grid>
             ))}

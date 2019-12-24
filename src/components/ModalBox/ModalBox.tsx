@@ -27,16 +27,20 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-interface Props {}
+interface Props {
+    showModal: boolean;
+    onShowModal: (show?: boolean) => void;
+}
 
-const ModalBox: React.FC<Props> = () => {
+const ModalBox: React.FC<Props> = ({ showModal, onShowModal }) => {
     const classes = useStyles();
-    const open = false;
+
+    const handleClose = () => onShowModal(false);
 
     return (
         <Modal
             className={classes.root}
-            open={open}
+            open={showModal}
             onClose={() => {}}
             closeAfterTransition
             BackdropComponent={Backdrop}
@@ -44,11 +48,12 @@ const ModalBox: React.FC<Props> = () => {
                 timeout: 300,
             }}
         >
-            <Fade in={open}>
+            <Fade in={showModal}>
                 <Card className={classes.card}>
                     <CardContent className={classes.content}>
                         <h2>Transition modal</h2>
                         <p>react-transition-group animates me.</p>
+                        <button onClick={handleClose}>Close modal</button>
                     </CardContent>
                 </Card>
             </Fade>
