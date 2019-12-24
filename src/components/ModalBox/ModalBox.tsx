@@ -31,11 +31,12 @@ interface Props {}
 
 const ModalBox: React.FC<Props> = () => {
     const classes = useStyles();
+    const open = false;
 
     return (
         <Modal
             className={classes.root}
-            open={true}
+            open={open}
             onClose={() => {}}
             closeAfterTransition
             BackdropComponent={Backdrop}
@@ -43,7 +44,7 @@ const ModalBox: React.FC<Props> = () => {
                 timeout: 300,
             }}
         >
-            <Fade in={true}>
+            <Fade in={open}>
                 <Card className={classes.card}>
                     <CardContent className={classes.content}>
                         <h2>Transition modal</h2>
