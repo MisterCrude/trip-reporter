@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "@src/hooks/dispatch";
 
 import { setShowModal } from "@src/store/app/actions";
@@ -70,7 +70,7 @@ const Trips: Array<ITrip> = [
 const TripList: React.FC = () => {
     const triggerModal = useDispatch(setShowModal);
 
-    const handleTripClick = (id: string) => triggerModal(true);
+    const handleTripClick = useCallback((id: string) => triggerModal(true), [triggerModal]);
 
     return (
         <Grid container spacing={2} direction="column">

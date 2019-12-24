@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useCallback } from "react";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { Card, CardContent } from "@material-ui/core";
@@ -32,10 +32,10 @@ interface Props {
     onShowModal: (show?: boolean) => void;
 }
 
-const ModalBox: React.FC<Props> = ({ showModal, onShowModal }) => {
+const ModalBox: React.FC<Props> = memo(({ showModal, onShowModal }) => {
     const classes = useStyles();
 
-    const handleClose = () => onShowModal(false);
+    const handleClose = useCallback(() => onShowModal(false), [onShowModal]);
 
     return (
         <Modal
@@ -59,6 +59,6 @@ const ModalBox: React.FC<Props> = ({ showModal, onShowModal }) => {
             </Fade>
         </Modal>
     );
-};
+});
 
 export default ModalBox;

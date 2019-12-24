@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 
 import { ITrip } from "@src/types/trip";
@@ -38,7 +38,7 @@ interface Props {
     tripData: ITrip;
 }
 
-const Trip: React.FC<Props> = ({ tripData }) => {
+const Trip: React.FC<Props> = memo(({ tripData }) => {
     const classes = useStyles();
     const { id, name, visitedCountries, started, finished, description } = tripData;
 
@@ -71,6 +71,6 @@ const Trip: React.FC<Props> = ({ tripData }) => {
             </CardContent>
         </Card>
     );
-};
+});
 
 export default Trip;
