@@ -3,7 +3,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { Container } from "@material-ui/core";
 import ModalBox from "@src/components/ModalBox";
-import TripList from "@src/components/TripList";
+import TripList from "@src/containers/TripList";
 
 const App: React.FC = () => {
     return (
