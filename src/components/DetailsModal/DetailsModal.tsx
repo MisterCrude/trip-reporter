@@ -13,6 +13,9 @@ import {
     Popover,
     List,
     ListItem,
+    Fade,
+    Backdrop,
+    Modal,
 } from "@material-ui/core";
 import {
     QueryBuilder as QueryBuilderIcon,
@@ -20,9 +23,6 @@ import {
     Edit as EditIcon,
     Delete as DeleteIcon,
 } from "@material-ui/icons";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,8 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: "center",
             justifyContent: "center",
         },
-
-        // TODO move inside
         card: {
             boxShadow: theme.shadows[3],
             minWidth: "70vw",
@@ -46,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         footer: {
             "&, &:last-child": {
-                padding: theme.spacing(2),
+                padding: theme.spacing(2, 4),
             },
             display: "flex",
             justifyContent: "space-between",
@@ -70,22 +68,20 @@ const useStyles = makeStyles((theme: Theme) =>
         marginRight: {
             marginRight: theme.spacing(2),
         },
-        // TODO env^
     }),
 );
 
 interface Props {
     showModal: boolean;
-    onShowModal: (show?: boolean) => void;
+    onCloseModal: () => void;
 }
 
-const ModalBox: React.FC<Props> = memo(({ showModal, onShowModal }) => {
+const DetailsModal: React.FC<Props> = memo(({ onCloseModal, showModal }) => {
     const classes = useStyles();
-
-    const handleCloseModal = useCallback(() => onShowModal(false), [onShowModal]);
-
-    // TODO move inside
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+
+    const open = Boolean(anchorEl);
+
     const handleOpenPopover = useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
             setAnchorEl(event.currentTarget);
@@ -95,14 +91,12 @@ const ModalBox: React.FC<Props> = memo(({ showModal, onShowModal }) => {
     const handleClosePopover = useCallback(() => {
         setAnchorEl(null);
     }, [setAnchorEl]);
-    const open = Boolean(anchorEl);
-    // TODO end^
 
     return (
         <Modal
             className={classes.root}
             open={showModal}
-            onClose={handleCloseModal}
+            onClose={onCloseModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
@@ -110,7 +104,6 @@ const ModalBox: React.FC<Props> = memo(({ showModal, onShowModal }) => {
             }}
         >
             <Fade in={showModal}>
-                {/* TODO move inside */}
                 <Card className={classes.card}>
                     <CardContent className={classes.content}>
                         <Box display="flex" mb={2}>
@@ -136,7 +129,7 @@ const ModalBox: React.FC<Props> = memo(({ showModal, onShowModal }) => {
                     </CardContent>
                     <Divider />
                     <CardContent className={classes.footer}>
-                        <Button variant="outlined" onClick={handleCloseModal} size="large">
+                        <Button variant="outlined" onClick={onCloseModal} size="large">
                             Close
                         </Button>
                         <IconButton color="primary" onClick={handleOpenPopover}>
@@ -167,10 +160,9 @@ const ModalBox: React.FC<Props> = memo(({ showModal, onShowModal }) => {
                         </Popover>
                     </CardContent>
                 </Card>
-                {/* TODO end^ */}
             </Fade>
         </Modal>
     );
 });
 
-export default ModalBox;
+export default DetailsModal;

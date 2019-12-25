@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
+import { green } from "@material-ui/core/colors";
 
 import { ITrip } from "@src/types/trip";
 import {
@@ -7,16 +8,23 @@ import {
     FavoriteBorder as FavoriteBorderIcon,
     Favorite as FavoriteIcon,
 } from "@material-ui/icons";
-import { Card, CardContent, Typography, Divider, Chip, IconButton } from "@material-ui/core";
+import { QueryBuilder as QueryBuilderIcon } from "@material-ui/icons";
+import { Card, CardContent, Typography, Divider, Chip, IconButton, Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             cursor: "pointer",
         },
-        header: {
-            display: "flex",
-            justifyContent: "space-between",
+        content: {
+            "&, &:last-child": {
+                padding: theme.spacing(3, 4),
+            },
+        },
+        footer: {
+            "&, &:last-child": {
+                padding: theme.spacing(2, 4),
+            },
         },
         description: {
             marginTop: theme.spacing(2),
@@ -29,6 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         favoriteButton: {
             marginLeft: theme.spacing(2),
+        },
+        chipTick: {
+            color: green[500],
         },
     }),
 );
@@ -48,32 +59,39 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
 
     return (
         <Card className={classes.root}>
-            <CardContent>
-                <div className={classes.header}>
-                    <Typography component="h5" variant="h5">
+            <CardContent className={classes.content}>
+                <Box display="flex" justifyContent="space-between" mb={2}>
+                    <Typography component="h2" variant="h4">
                         {name}
                     </Typography>
                     <IconButton className={classes.favoriteButton}>
                         {isFavoriteTrip(id) ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
                     </IconButton>
-                </div>
-                <Typography variant="subtitle1" color="textSecondary">
-                    From <strong>{started}</strong> to <strong>{finished}</strong>
-                </Typography>
+                </Box>
+                <Chip
+                    icon={<QueryBuilderIcon />}
+                    label={
+                        <>
+                            <strong>{started}</strong> - <strong>{finished}</strong>
+                        </>
+                    }
+                    variant="outlined"
+                />
 
                 <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
                     {description}
                 </Typography>
             </CardContent>
             <Divider />
-            <CardContent>
+            <CardContent className={classes.footer}>
                 {Object.values(visitedCountries)
                     .slice(0, 8)
                     .map((countryName: any) => (
                         <Chip
                             key={countryName}
-                            icon={<CheckCircleIcon />}
+                            icon={<CheckCircleIcon className={classes.chipTick} />}
                             label={countryName}
+                            variant="outlined"
                             className={classes.chip}
                         />
                     ))}

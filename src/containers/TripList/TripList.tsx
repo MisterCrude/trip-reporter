@@ -4,7 +4,7 @@ import { useDispatch } from "@src/hooks/dispatch";
 import { setShowModal } from "@src/store/app/actions";
 import { ITrip } from "@src/types/trip";
 import { Grid } from "@material-ui/core";
-import Trip from "@src/components/Trip";
+import TripItem from "@src/components/TripItem";
 
 // TODO remove it from here
 const Trips: Array<ITrip> = [
@@ -76,7 +76,7 @@ const TripList: React.FC = () => {
         <Grid container spacing={2} direction="column">
             {Trips.map(tripData => (
                 <Grid item key={tripData.id} onClick={() => handleTripClick(tripData.id)}>
-                    <Trip tripData={tripData} />
+                    <TripItem tripData={tripData} />
                 </Grid>
             ))}
         </Grid>
