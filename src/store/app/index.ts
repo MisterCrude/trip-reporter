@@ -16,8 +16,7 @@ export default (state: IAppState = initialState, { type, payload }: AppAction): 
         case AppTypes.APP_TRIGGER_MODAL:
             return {
                 ...state,
-                // TODO use true-myths here
-                showModal: payload ? payload : !state.showModal,
+                showModal: payload.map((payload: any) => payload).unwrapOr(!state.showModal),
             };
 
         default:

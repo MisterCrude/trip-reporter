@@ -1,7 +1,8 @@
+import { Maybe } from "true-myth";
 import { AppAction } from ".";
 import AppTypes from "./types";
 
-export const setShowModal = (modalState?: boolean): AppAction => ({
+export const setShowModal = (modalState: boolean): AppAction => ({
     type: AppTypes.APP_TRIGGER_MODAL,
-    payload: modalState,
+    payload: Maybe.of(modalState),
 });
