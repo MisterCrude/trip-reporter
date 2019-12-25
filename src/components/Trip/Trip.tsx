@@ -2,7 +2,11 @@ import React, { memo } from "react";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 
 import { ITrip } from "@src/types/trip";
-import { CheckCircle, FavoriteBorder, Favorite } from "@material-ui/icons";
+import {
+    CheckCircle as CheckCircleIcon,
+    FavoriteBorder as FavoriteBorderIcon,
+    Favorite as FavoriteIcon,
+} from "@material-ui/icons";
 import { Card, CardContent, Typography, Divider, Chip, IconButton } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,7 +54,7 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
                         {name}
                     </Typography>
                     <IconButton className={classes.favoriteButton}>
-                        {isFavoriteTrip(id) ? <Favorite color="error" /> : <FavoriteBorder />}
+                        {isFavoriteTrip(id) ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
                     </IconButton>
                 </div>
                 <Typography variant="subtitle1" color="textSecondary">
@@ -66,7 +70,12 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
                 {Object.values(visitedCountries)
                     .slice(0, 8)
                     .map((countryName: any) => (
-                        <Chip key={countryName} icon={<CheckCircle />} label={countryName} className={classes.chip} />
+                        <Chip
+                            key={countryName}
+                            icon={<CheckCircleIcon />}
+                            label={countryName}
+                            className={classes.chip}
+                        />
                     ))}
             </CardContent>
         </Card>
