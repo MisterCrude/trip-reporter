@@ -68,7 +68,7 @@ const Trips: Array<ITrip> = [
 ];
 
 const TripList: React.FC = () => {
-    const triggerModal = useDispatch(setShowModal);
+    const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
 
     const handleTripClick = useCallback((id: string) => triggerModal(true), [triggerModal]);
 

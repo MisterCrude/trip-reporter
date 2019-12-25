@@ -12,7 +12,7 @@ import Filters from "@src/containers/Filters";
 
 const App: React.FC = () => {
     const showModal = useSelector(getShowModal);
-    const triggerModal = useDispatch(setShowModal);
+    const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
 
     return (
         <Box px={2} py={4} component="main">
