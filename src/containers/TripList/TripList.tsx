@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "@src/hooks/dispatch";
 
+import { ModalTypes } from "@src/types/app";
 import { setShowModal } from "@src/store/app/actions";
 import { ITrip } from "@src/types/trip";
 import { Grid } from "@material-ui/core";
@@ -70,7 +71,7 @@ const Trips: Array<ITrip> = [
 const TripList: React.FC = () => {
     const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
 
-    const handleTripClick = useCallback((id: string) => triggerModal(true), [triggerModal]);
+    const handleTripClick = useCallback((id: string) => triggerModal(ModalTypes.MODAL_DETAILS), [triggerModal]);
 
     return (
         <Grid container spacing={2} direction="column">

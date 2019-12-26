@@ -1,14 +1,15 @@
 import { IAction } from "@src/types/store";
+import { ModalTypes } from "@src/types/app";
 import AppTypes from "./types";
 
 interface IAppState {
-    showModal: boolean;
+    showModal: ModalTypes;
 }
 
 export type AppAction = IAction<keyof typeof AppTypes, any>;
 
 export const initialState: IAppState = {
-    showModal: false,
+    showModal: ModalTypes.NONE,
 };
 
 export default (state: IAppState = initialState, { type, payload }: AppAction): IAppState => {
@@ -16,7 +17,7 @@ export default (state: IAppState = initialState, { type, payload }: AppAction): 
         case AppTypes.APP_TRIGGER_MODAL:
             return {
                 ...state,
-                showModal: payload.map((payload: any) => payload).unwrapOr(!state.showModal),
+                showModal: payload.map((payload: any) => payload).unwrapOr(ModalTypes.NONE),
             };
 
         default:
