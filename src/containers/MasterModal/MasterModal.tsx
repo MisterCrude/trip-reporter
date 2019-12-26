@@ -6,6 +6,7 @@ import { setShowModal } from "@src/store/app/actions";
 import { ModalTypes } from "@src/types/app";
 
 import DetailsModal from "@src/components/DetailsModal";
+import FormModal from "@src/components/FormModal";
 
 const MasterModal: React.FC = () => {
     const showModal = useSelector(getShowModal);
@@ -15,6 +16,7 @@ const MasterModal: React.FC = () => {
     return (
         <>
             <DetailsModal onCloseModal={handleClose} showModal={showModal === ModalTypes.MODAL_DETAILS} />
+            <FormModal onCloseModal={handleClose} showModal={showModal === ModalTypes.MODAL_EDIT} />
         </>
     );
 };

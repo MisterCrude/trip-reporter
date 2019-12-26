@@ -1,5 +1,8 @@
 import React, { memo, useCallback } from "react";
 
+import { useDispatch } from "@src/hooks/dispatch";
+import { ModalTypes } from "@src/types/app";
+import { setShowModal } from "@src/store/app/actions";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import {
     Card,
@@ -77,11 +80,19 @@ interface Props {
 }
 
 const DetailsModal: React.FC<Props> = memo(({ onCloseModal, showModal }) => {
-    const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-
     const open = Boolean(anchorEl);
 
+    const classes = useStyles();
+    const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
+
+    const handleEditClick = useCallback(
+        (id: string) => {
+            triggerModal(ModalTypes.MODAL_EDIT);
+            setAnchorEl(null);
+        },
+        [triggerModal, setAnchorEl],
+    );
     const handleOpenPopover = useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
             setAnchorEl(event.currentTarget);
@@ -150,7 +161,11 @@ const DetailsModal: React.FC<Props> = memo(({ onCloseModal, showModal }) => {
                             }}
                         >
                             <List>
-                                <ListItem button className={classes.editIcon}>
+                                <ListItem
+                                    button
+                                    className={classes.editIcon}
+                                    onClick={() => handleEditClick("some_ID")}
+                                >
                                     <EditIcon /> Eidt
                                 </ListItem>
                                 <ListItem button className={classes.deleteIcon}>
