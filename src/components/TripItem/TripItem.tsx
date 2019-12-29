@@ -1,48 +1,14 @@
 import React, { memo } from "react";
-import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
-
 import { ITrip } from "@src/types/trip";
+import useStyles from "./styles";
+
 import {
+    QueryBuilder as QueryBuilderIcon,
     CheckCircle as CheckCircleIcon,
     FavoriteBorder as FavoriteBorderIcon,
     Favorite as FavoriteIcon,
 } from "@material-ui/icons";
-import { QueryBuilder as QueryBuilderIcon } from "@material-ui/icons";
 import { Card, CardContent, Typography, Divider, Chip, IconButton, Box } from "@material-ui/core";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            cursor: "pointer",
-        },
-        content: {
-            "&, &:last-child": {
-                padding: theme.spacing(3, 4),
-            },
-        },
-        footer: {
-            "&, &:last-child": {
-                padding: theme.spacing(2, 4),
-            },
-        },
-        description: {
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(1),
-        },
-        chip: {
-            "&:not(:first-of-type)": {
-                marginLeft: theme.spacing(1),
-            },
-        },
-        favoriteButton: {
-            marginLeft: theme.spacing(2),
-        },
-        chipTick: {
-            color: green[500],
-        },
-    }),
-);
 
 const favoriteTrips = ["1", "2"];
 

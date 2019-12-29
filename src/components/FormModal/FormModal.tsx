@@ -1,28 +1,7 @@
 import React, { memo } from "react";
+import useStyles from "./styles";
 
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { Card, CardContent, Fade, Backdrop, Modal } from "@material-ui/core";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            outline: "none",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-        },
-        card: {
-            boxShadow: theme.shadows[3],
-            minWidth: "70vw",
-            outline: "none",
-        },
-        content: {
-            "&, &:last-child": {
-                padding: theme.spacing(3, 4),
-            },
-        },
-    }),
-);
 
 interface Props {
     showModal: boolean;

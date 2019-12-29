@@ -1,9 +1,9 @@
 import React, { memo, useCallback } from "react";
-
+import { setShowModal } from "@src/store/app/actions";
 import { useDispatch } from "@src/hooks/dispatch";
 import { ModalTypes } from "@src/types/app";
-import { setShowModal } from "@src/store/app/actions";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import useStyles from "./styles";
+
 import {
     Card,
     CardContent,
@@ -26,53 +26,6 @@ import {
     Edit as EditIcon,
     Delete as DeleteIcon,
 } from "@material-ui/icons";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            outline: "none",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-        },
-        card: {
-            boxShadow: theme.shadows[3],
-            minWidth: "70vw",
-            outline: "none",
-        },
-        content: {
-            "&, &:last-child": {
-                padding: theme.spacing(3, 4),
-            },
-        },
-        footer: {
-            "&, &:last-child": {
-                padding: theme.spacing(2, 4),
-            },
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-        },
-        popover: {
-            padding: theme.spacing(2),
-        },
-        editIcon: {
-            "& > svg": {
-                marginRight: theme.spacing(2),
-            },
-            color: theme.palette.primary.main,
-        },
-        deleteIcon: {
-            "& > svg": {
-                marginRight: theme.spacing(2),
-            },
-            color: theme.palette.secondary.dark,
-        },
-        marginRight: {
-            marginRight: theme.spacing(2),
-        },
-    }),
-);
 
 interface Props {
     showModal: boolean;
