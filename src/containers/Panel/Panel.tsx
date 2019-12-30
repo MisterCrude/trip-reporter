@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "@src/hooks/dispatch";
 import { setShowModal } from "@src/store/app/actions";
-import { ModalTypes } from "@src/types/app";
+import { ModalTypes } from "@src/types/common";
 
 import { Button, Fab, Box } from "@material-ui/core";
 import { Favorite as FavoriteIcon } from "@material-ui/icons";

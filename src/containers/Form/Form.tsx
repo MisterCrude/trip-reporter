@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import { useForm } from "react-hook-form";
+import { getRandomFriend } from "@src/utils/friends";
+import { IFriend } from "@src/types/common";
+import { COMMON } from "@src/config";
 
-import { TextField, Chip, Grid, Box } from "@material-ui/core";
-import { GpsFixedRounded as GpsFixedRoundedIcon, ForwardRounded as ForwardRoundedIcon } from "@material-ui/icons";
+import { TextField, Avatar, Grid, Box, Chip, Fab } from "@material-ui/core";
+import {
+    GpsFixedRounded as GpsFixedRoundedIcon,
+    ForwardRounded as ForwardRoundedIcon,
+    Add as AddIcon,
+} from "@material-ui/icons";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 
 interface Props {
@@ -15,8 +22,14 @@ const Form: React.FC<Props> = () => {
     const { register, handleSubmit } = useForm();
     const [visitedCountries, setVisitedCountries] = useState([]);
     const [transitedCountries, setTransitedCountries] = useState([]);
+    const [friendsList, setFriendsList] = useState<IFriend[]>([]);
 
     const handleFormSubmit = (data: any) => console.log(data);
+    const handleAddFriend = useCallback(() => setFriendsList([...friendsList, getRandomFriend()]), [friendsList]);
+    const handleDeleteFriend = useCallback(
+        (id: string) => setFriendsList([...friendsList.filter((friend: IFriend) => friend.id !== id)]),
+        [friendsList],
+    );
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -105,6 +118,28 @@ const Form: React.FC<Props> = () => {
                             label="Description"
                             inputRef={register}
                         />
+                    </Grid>
+                    <Grid item md={12}>
+                        <Fab
+                            variant="extended"
+                            size="medium"
+                            color="primary"
+                            onClick={handleAddFriend}
+                            disabled={friendsList.length > COMMON.FRINEDS_LIMIT}
+                        >
+                            <AddIcon fontSize="small" /> &nbsp; Invite friend
+                        </Fab>
+                        <Box mt={2}>
+                            {friendsList.map((friend: IFriend) => (
+                                <Box display="inline-block" mr={1} mb={1} key={friend.id}>
+                                    <Chip
+                                        avatar={<Avatar alt={friend.name} src={friend.avatarUrl} />}
+                                        label={friend.name}
+                                        onDelete={() => handleDeleteFriend(friend.id)}
+                                    />
+                                </Box>
+                            ))}
+                        </Box>
                     </Grid>
                 </Grid>
             </MuiPickersUtilsProvider>

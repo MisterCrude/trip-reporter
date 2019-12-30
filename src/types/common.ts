@@ -4,3 +4,9 @@ export enum ModalTypes {
     MODAL_DETAILS = "MODAL_DETAILS",
     NONE = "NONE",
 }
+
+export interface IFriend {
+    id: string;
+    name: string;
+    avatarUrl: string;
+}

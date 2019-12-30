@@ -1,6 +1,6 @@
 import { Maybe } from "true-myth";
 import { AppAction } from ".";
-import { ModalTypes } from "@src/types/app";
+import { ModalTypes } from "@src/types/common";
 import AppTypes from "./types";
 
 export const setShowModal = (modalState: ModalTypes): AppAction => ({

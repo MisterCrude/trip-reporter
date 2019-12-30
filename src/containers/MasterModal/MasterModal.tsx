@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "@src/hooks/dispatch";
 import { getShowModal } from "@src/store/app/selectors";
 import { setShowModal } from "@src/store/app/actions";
-import { ModalTypes } from "@src/types/app";
+import { ModalTypes } from "@src/types/common";
 
 import DetailsModal from "@src/components/DetailsModal";
 import FormModal from "@src/components/FormModal";

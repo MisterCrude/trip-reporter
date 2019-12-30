@@ -1,5 +1,5 @@
 import { IAction } from "@src/types/store";
-import { ModalTypes } from "@src/types/app";
+import { ModalTypes } from "@src/types/common";
 import AppTypes from "./types";
 
 interface IAppState {

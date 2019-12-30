@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from "react";
 import { setShowModal } from "@src/store/app/actions";
 import { useDispatch } from "@src/hooks/dispatch";
-import { ModalTypes } from "@src/types/app";
+import { ModalTypes } from "@src/types/common";
 import useStyles from "./styles";
 
 import {
