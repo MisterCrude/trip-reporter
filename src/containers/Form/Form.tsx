@@ -81,13 +81,6 @@ const Form: React.FC<Props> = () => {
                             value={new Date("2014-08-18T21:11:54")}
                             onChange={() => {}}
                         />
-                        {/* <TextField
-                        fullWidth
-                        variant="outlined"
-                        name="startedDate"
-                        label="Started Date *"
-                        inputRef={register({ required: true })}
-                    /> */}
                     </Grid>
                     <Grid item md={6}>
                         <KeyboardDatePicker
@@ -101,13 +94,6 @@ const Form: React.FC<Props> = () => {
                             value={new Date("2014-08-18T21:11:54")}
                             onChange={() => {}}
                         />
-                        {/* <TextField
-                            fullWidth
-                            variant="outlined"
-                            name="finishedDate"
-                            label="Finished Date *"
-                            inputRef={register({ required: true })}
-                        /> */}
                     </Grid>
                     <Grid item md={12}>
                         <TextField

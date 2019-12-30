@@ -1,3 +1,4 @@
+import uuid from "uuid/v1";
 import { IAction } from "@src/types/store";
 import { ITrip } from "@src/types/trip";
 import TripTypes from "./types";
@@ -19,7 +20,7 @@ export default (state: IAppState = initialState, { type, payload }: TripAction):
             return state;
 
         case TripTypes.TRIP_ADD:
-            console.log(payload);
+            console.log(payload, uuid());
             return state;
 
         case TripTypes.TRIP_REMOVE:

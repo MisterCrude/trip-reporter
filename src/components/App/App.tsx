@@ -1,7 +1,7 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import { Container, Box } from "@material-ui/core";
+import { Container, Box, AppBar, Toolbar } from "@material-ui/core";
 import MasterModal from "@src/containers/MasterModal";
 import TripList from "@src/containers/TripList";
 import Filters from "@src/containers/Filters";
@@ -9,14 +9,19 @@ import Panel from "@src/containers/Panel";
 
 const App: React.FC = () => {
     return (
-        <Box px={2} py={4} component="main">
+        <Box py={8} component="main">
             <CssBaseline />
+            <AppBar position="fixed" color="inherit">
+                <Toolbar>
+                    <Container>
+                        <Panel />
+                    </Container>
+                </Toolbar>
+            </AppBar>
             <Container>
-                <main>
-                    <Filters />
-                    <Panel />
-                    <TripList />
-                </main>
+                <Filters />
+
+                <TripList />
             </Container>
             <MasterModal />
         </Box>
