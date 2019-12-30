@@ -3,8 +3,8 @@ import { ITrip } from "@src/types/trip";
 import useStyles from "./styles";
 
 import {
+    GpsFixedRounded as GpsFixedRoundedIcon,
     QueryBuilder as QueryBuilderIcon,
-    CheckCircle as CheckCircleIcon,
     FavoriteBorder as FavoriteBorderIcon,
     Favorite as FavoriteIcon,
 } from "@material-ui/icons";
@@ -53,13 +53,9 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
                 {Object.values(visitedCountries)
                     .slice(0, 8)
                     .map((countryName: any) => (
-                        <Chip
-                            key={countryName}
-                            icon={<CheckCircleIcon className={classes.chipTick} />}
-                            label={countryName}
-                            variant="outlined"
-                            className={classes.chip}
-                        />
+                        <Box mr={1} display="inline-block" key={countryName}>
+                            <Chip label={countryName} icon={<GpsFixedRoundedIcon />} />
+                        </Box>
                     ))}
             </CardContent>
         </Card>

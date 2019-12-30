@@ -6,7 +6,11 @@ interface Props {
 
 // TODO connect here, it is smart component
 const Filters: React.FC<Props> = () => {
-    return <>Filters</>;
+    return (
+        <>
+            <p>Filters</p>
+        </>
+    );
 };
 
 export default Filters;

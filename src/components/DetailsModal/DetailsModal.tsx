@@ -70,8 +70,8 @@ const DetailsModal: React.FC<Props> = memo(({ onCloseModal, showModal }) => {
             <Fade in={showModal}>
                 <Card className={classes.card}>
                     <CardContent className={classes.content}>
-                        <Box display="flex" mb={2}>
-                            <Typography variant="h4" component="h2">
+                        <Box display="flex" mb={3}>
+                            <Typography variant="h5" component="h2" className={classes.title}>
                                 Transition modal
                             </Typography>
                         </Box>

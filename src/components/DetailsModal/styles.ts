@@ -7,16 +7,26 @@ const useStyles = makeStyles((theme: Theme) =>
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            overflowY: "auto",
+            paddingRight: theme.spacing(0, 3),
         },
         card: {
             boxShadow: theme.shadows[3],
-            minWidth: "70vw",
+            maxWidth: "80vw",
+            width: "1000px",
             outline: "none",
+            position: "absolute",
+            top: theme.spacing(6),
+            marginBottom: theme.spacing(6),
         },
         content: {
             "&, &:last-child": {
-                padding: theme.spacing(3, 4),
+                padding: theme.spacing(4),
             },
+        },
+        title: {
+            textTransform: "uppercase",
+            margin: theme.spacing(1, 0),
         },
         footer: {
             "&, &:last-child": {

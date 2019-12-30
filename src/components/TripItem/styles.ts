@@ -20,11 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(1),
         },
-        chip: {
-            "&:not(:first-of-type)": {
-                marginLeft: theme.spacing(1),
-            },
-        },
         favoriteButton: {
             marginLeft: theme.spacing(2),
         },

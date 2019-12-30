@@ -13,10 +13,13 @@ const MasterModal: React.FC = () => {
     const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
     const handleClose = useCallback(() => triggerModal(ModalTypes.NONE), [triggerModal]);
 
+    // TODO Check in lifecicle id of edit trip
+
     return (
         <>
             <DetailsModal onCloseModal={handleClose} showModal={showModal === ModalTypes.MODAL_DETAILS} />
-            <FormModal onCloseModal={handleClose} showModal={showModal === ModalTypes.MODAL_EDIT} />
+            <FormModal isEditModal onCloseModal={handleClose} showModal={showModal === ModalTypes.MODAL_EDIT} />
+            <FormModal onCloseModal={handleClose} showModal={showModal === ModalTypes.MODAL_ADD} />
         </>
     );
 };

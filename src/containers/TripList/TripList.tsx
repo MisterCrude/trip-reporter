@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "@src/hooks/dispatch";
-
-import { ModalTypes } from "@src/types/app";
 import { setShowModal } from "@src/store/app/actions";
+import { ModalTypes } from "@src/types/app";
 import { ITrip } from "@src/types/trip";
+
 import { Grid } from "@material-ui/core";
 import TripItem from "@src/components/TripItem";
 
