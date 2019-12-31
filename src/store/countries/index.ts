@@ -1,8 +1,8 @@
 import { IAction } from "@src/types/store";
-import { ICounty } from "@src/types/countries";
+import { ICountry } from "@src/types/countries";
 import CountriesTypes from "./types";
 
-type CountriesState = ICounty[];
+type CountriesState = ICountry[];
 
 export type CountriesAction = IAction<keyof typeof CountriesTypes, any>;
 

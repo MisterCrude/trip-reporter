@@ -1,4 +1,6 @@
-export interface ICounty {
+export interface ICountry {
+    id: string;
     name: string;
     code: string;
+    transited: boolean;
 }

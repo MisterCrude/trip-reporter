@@ -3,9 +3,10 @@ import DateFnsUtils from "@date-io/date-fns";
 import { useForm } from "react-hook-form";
 import { getRandomFriend } from "@src/utils/friends";
 import { IFriend } from "@src/types/common";
+import { ICountry } from "@src/types/countries";
 import { COMMON } from "@src/config";
 
-import { TextField, Avatar, Grid, Box, Chip, Fab } from "@material-ui/core";
+import { TextField, Avatar, Grid, Box, Chip, Fab, Typography } from "@material-ui/core";
 import {
     GpsFixedRounded as GpsFixedRoundedIcon,
     ForwardRounded as ForwardRoundedIcon,
@@ -17,11 +18,18 @@ interface Props {
     // TODO get props form store
 }
 
+type FormData = {
+    // firstName: string;
+    // lastName: string;
+};
+
 // TODO connect here, it is smart component
 const Form: React.FC<Props> = () => {
-    const { register, handleSubmit } = useForm();
-    const [visitedCountries, setVisitedCountries] = useState([]);
-    const [transitedCountries, setTransitedCountries] = useState([]);
+    const { register, handleSubmit } = useForm<FormData>();
+    const [countriesList, setCountriesList] = useState<ICountry[]>([
+        { id: "sdsd", code: "PL", name: "Poland", transited: false },
+        { id: "qweqw", code: "RU", name: "Russian", transited: false },
+    ]);
     const [friendsList, setFriendsList] = useState<IFriend[]>([]);
 
     const handleFormSubmit = (data: any) => console.log(data);
@@ -29,6 +37,15 @@ const Form: React.FC<Props> = () => {
     const handleDeleteFriend = useCallback(
         (id: string) => setFriendsList([...friendsList.filter((friend: IFriend) => friend.id !== id)]),
         [friendsList],
+    );
+    const handleTransitedTrigger = useCallback(
+        (id: string) =>
+            setCountriesList(
+                countriesList.map((country: ICountry) =>
+                    country.id === id ? { ...country, transited: !country.transited } : country,
+                ),
+            ),
+        [countriesList],
     );
 
     return (
@@ -44,7 +61,7 @@ const Form: React.FC<Props> = () => {
                             inputRef={register({ required: true })}
                         />
                     </Grid>
-                    <Grid item md={6}>
+                    <Grid item md={12}>
                         <TextField
                             fullWidth
                             variant="outlined"
@@ -53,33 +70,25 @@ const Form: React.FC<Props> = () => {
                             inputRef={register({ required: true })}
                         />
                         <Box mt={1} display="inline-block">
-                            {/* {visitedCountries.map()} */}
-
-                            <Box mr={1} display="inline-block">
-                                <Chip label="Poland" icon={<GpsFixedRoundedIcon />} onDelete={() => {}} />
-                            </Box>
-                            <Box mr={1} display="inline-block">
-                                <Chip label="Russia" icon={<GpsFixedRoundedIcon />} onDelete={() => {}} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            name="transitedCountries"
-                            label="Transited countries"
-                            inputRef={register}
-                        />
-                        <Box mt={1} display="inline-block">
-                            {/* {visitedCountries.map()} */}
-
-                            <Box mr={1} display="inline-block">
-                                <Chip label="Poland" icon={<ForwardRoundedIcon />} onDelete={() => {}} />
-                            </Box>
-                            <Box mr={1} display="inline-block">
-                                <Chip label="Russia" icon={<ForwardRoundedIcon />} onDelete={() => {}} />
-                            </Box>
+                            {!!countriesList.length && (
+                                <Box mb={1}>
+                                    <Typography variant="body2" component="p">
+                                        Click to country badge for changing to <strong>Transit</strong> status!
+                                    </Typography>
+                                </Box>
+                            )}
+                            {countriesList.map((country: ICountry) => (
+                                <Box mr={1} display="inline-block">
+                                    <Chip
+                                        key={country.id}
+                                        label={country.name}
+                                        icon={country.transited ? <ForwardRoundedIcon /> : <GpsFixedRoundedIcon />}
+                                        color={country.transited ? "inherit" : "primary"}
+                                        onClick={() => handleTransitedTrigger(country.id)}
+                                        onDelete={() => {}}
+                                    />
+                                </Box>
+                            ))}
                         </Box>
                     </Grid>
                     <Grid item md={6}>
