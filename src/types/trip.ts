@@ -9,8 +9,3 @@ export interface ITrip {
     visitedCountries: Array<string>; // TODO list of country codes
     transitedCountries: Array<string>; // TODO list of country codes
 }
-
-export interface ICountyPair {
-    name: string;
-    code: string;
-}

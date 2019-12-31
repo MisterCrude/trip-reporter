@@ -129,17 +129,19 @@ const Form: React.FC<Props> = () => {
                         >
                             <AddIcon fontSize="small" /> &nbsp; Invite friend
                         </Fab>
-                        <Box mt={2}>
-                            {friendsList.map((friend: IFriend) => (
-                                <Box display="inline-block" mr={1} mb={1} key={friend.id}>
-                                    <Chip
-                                        avatar={<Avatar alt={friend.name} src={friend.avatarUrl} />}
-                                        label={friend.name}
-                                        onDelete={() => handleDeleteFriend(friend.id)}
-                                    />
-                                </Box>
-                            ))}
-                        </Box>
+                        {!!friendsList.length && (
+                            <Box mt={2}>
+                                {friendsList.map((friend: IFriend) => (
+                                    <Box display="inline-block" mr={1} mb={1} key={friend.id}>
+                                        <Chip
+                                            avatar={<Avatar alt={friend.name} src={friend.avatarUrl} />}
+                                            label={friend.name}
+                                            onDelete={() => handleDeleteFriend(friend.id)}
+                                        />
+                                    </Box>
+                                ))}
+                            </Box>
+                        )}
                     </Grid>
                 </Grid>
             </MuiPickersUtilsProvider>
