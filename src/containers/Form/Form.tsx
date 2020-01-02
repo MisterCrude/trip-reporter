@@ -14,13 +14,12 @@ import {
 } from "@material-ui/icons";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 
-interface IFormState {}
-
 interface Props {
     // TODO get props form store
 }
 
 const Form: React.FC<Props> = () => {
+    // TODO get countries here
     const [countriesList, setCountriesList] = useState<ICountry[]>([
         { id: "sdsd", code: "PL", name: "Poland", transited: false },
         { id: "qweqw", code: "RU", name: "Russian", transited: false },
@@ -70,7 +69,16 @@ const Form: React.FC<Props> = () => {
     const handleChangeStartedDate = useCallback((date: any) => setStartedDateValue(date), [setStartedDateValue]);
     const handleChangeFinishedDate = useCallback((date: any) => setFinishedDateValue(date), [setFinishedDateValue]);
 
-    useEffect(() => console.log(tripNameValue), [tripNameValue]);
+    const isFormValid = useCallback(
+        () =>
+            !!tripNameValue.length &&
+            !!countriesList.length &&
+            !!descriptionValue.length &&
+            finishedDateValue.getDate() > startedDateValue.getDate(),
+        [tripNameValue, countriesList, descriptionValue, finishedDateValue, startedDateValue],
+    );
+
+    useEffect(() => setFormValidator(isFormValid()), [isFormValid, setFormValidator]);
 
     return (
         <form onSubmit={() => {}}>
