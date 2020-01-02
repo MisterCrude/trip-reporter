@@ -5,6 +5,7 @@ import { getShowModal } from "@src/store/app/selectors";
 import { setShowModal } from "@src/store/app/actions";
 import { ModalTypes } from "@src/types/common";
 
+import { Backdrop, Box, Modal, Fade } from "@material-ui/core";
 import DetailsModal from "@src/components/DetailsModal";
 import FormModal from "@src/components/FormModal";
 
@@ -16,11 +17,23 @@ const MasterModal: React.FC = () => {
     // TODO Check in lifecicle id of edit trip
 
     return (
-        <>
-            <DetailsModal onCloseModal={handleClose} showModal={showModal === ModalTypes.MODAL_DETAILS} />
-            <FormModal isEditModal onCloseModal={handleClose} showModal={showModal === ModalTypes.MODAL_EDIT} />
-            <FormModal onCloseModal={handleClose} showModal={showModal === ModalTypes.MODAL_ADD} />
-        </>
+        <Modal
+            open={showModal !== ModalTypes.NONE}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+                timeout: 300,
+            }}
+        >
+            <Fade in={showModal !== ModalTypes.NONE}>
+                <Box>
+                    {showModal === ModalTypes.MODAL_DETAILS && <DetailsModal onCloseModal={handleClose} />}
+                    {showModal === ModalTypes.MODAL_EDIT && <FormModal isEditModal onCloseModal={handleClose} />}
+                    {showModal === ModalTypes.MODAL_ADD && <FormModal onCloseModal={handleClose} />}
+                </Box>
+            </Fade>
+        </Modal>
     );
 };
 
