@@ -52,8 +52,8 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
             <CardContent className={classes.footer}>
                 {Object.values(visitedCountries)
                     .slice(0, 8)
-                    .map((countryName: any) => (
-                        <Box mr={1} display="inline-block" key={countryName}>
+                    .map((countryName: any, i) => (
+                        <Box mr={1} display="inline-block" key={countryName + i}>
                             <Chip label={countryName} icon={<GpsFixedRoundedIcon />} />
                         </Box>
                     ))}
