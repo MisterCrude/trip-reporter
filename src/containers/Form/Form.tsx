@@ -1,9 +1,13 @@
 import React, { useState, useCallback, useEffect, ChangeEvent } from "react";
+import { useSelector } from "react-redux";
 import DateFnsUtils from "@date-io/date-fns";
 import { getRandomFriend } from "@src/utils/friends";
 import { getTodayDate, getNextDayDate } from "@src/utils/common";
 import { IFriend } from "@src/types/common";
 import { ICountry } from "@src/types/countries";
+import { fetchCountries } from "@src/store/countries/actions";
+import { getCountriesList } from "@src/store/countries/selectors";
+import { useDispatch } from "@src/hooks/dispatch";
 import { COMMON } from "@src/config";
 
 import { TextField, Avatar, Grid, Box, Chip, Fab, Typography } from "@material-ui/core";
@@ -15,12 +19,14 @@ import {
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 
 interface Props {
-    // TODO get props form store
+    onFormValid: (state: boolean) => void;
 }
 
-const Form: React.FC<Props> = () => {
-    // TODO get countries here
-    const [countriesList, setCountriesList] = useState<ICountry[]>([
+const Form: React.FC<Props> = ({ onFormValid }) => {
+    const countriesList = useSelector(getCountriesList);
+    const dispatchCountries = useDispatch(fetchCountries);
+
+    const [chosenCountries, setChosenCountries] = useState([
         { id: "sdsd", code: "PL", name: "Poland", transited: false },
         { id: "qweqw", code: "RU", name: "Russian", transited: false },
     ]);
@@ -30,8 +36,6 @@ const Form: React.FC<Props> = () => {
     const [startedDateValue, setStartedDateValue] = useState<Date>(getTodayDate());
     const [finishedDateValue, setFinishedDateValue] = useState<Date>(getNextDayDate(getTodayDate()));
     const [descriptionValue, setDescriptionValue] = useState<string>("");
-
-    const [formValidator, setFormValidator] = useState<boolean>(false);
 
     const handleAddFriend = useCallback(() => setFriendsList([...friendsList, getRandomFriend()]), [
         friendsList,
@@ -43,12 +47,12 @@ const Form: React.FC<Props> = () => {
     );
     const handleCountryStatusTrigger = useCallback(
         (id: string) =>
-            setCountriesList(
-                countriesList.map((country: ICountry) =>
+            setChosenCountries(
+                chosenCountries.map((country: ICountry) =>
                     country.id === id ? { ...country, transited: !country.transited } : country,
                 ),
             ),
-        [countriesList, setCountriesList],
+        [chosenCountries, setChosenCountries],
     );
 
     const handleTextFieldChange = useCallback(
@@ -78,7 +82,10 @@ const Form: React.FC<Props> = () => {
         [tripNameValue, countriesList, descriptionValue, finishedDateValue, startedDateValue],
     );
 
-    useEffect(() => setFormValidator(isFormValid()), [isFormValid, setFormValidator]);
+    useEffect(() => {
+        dispatchCountries();
+        onFormValid(isFormValid());
+    }, [onFormValid, isFormValid, dispatchCountries]);
 
     return (
         <form onSubmit={() => {}}>
@@ -185,7 +192,6 @@ const Form: React.FC<Props> = () => {
                             </Box>
                         )}
                     </Grid>
-                    {JSON.stringify(formValidator)}
                 </Grid>
             </MuiPickersUtilsProvider>
         </form>

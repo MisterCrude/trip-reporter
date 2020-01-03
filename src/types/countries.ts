@@ -4,3 +4,7 @@ export interface ICountry {
     code: string;
     transited: boolean;
 }
+
+export interface ICountriesResponce {
+    [key: string]: any | { name: string; alpha2Code: string };
+}

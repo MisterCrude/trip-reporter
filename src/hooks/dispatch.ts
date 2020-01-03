@@ -6,7 +6,7 @@ export const useDispatch = <T extends Function>(action: T) => {
     const dispatch = useDispatchRedux();
 
     return useCallback(
-        (payload: any) => {
+        (payload?: any) => {
             dispatch(
                 Maybe.of(payload)
                     .map((payloadData: any) => action(payloadData))

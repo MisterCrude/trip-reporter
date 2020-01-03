@@ -1,4 +1,8 @@
 import { RootState } from "@src/types/store";
-import { ModalTypes } from "@src/types/common";
+import { ICountry } from "@src/types/countries";
 
-// export const getShowModal = (state: RootState): ModalTypes => state.app.showModal;
+export const getCountriesList = (state: RootState): ICountry[] => state.countries.countriesList;
+
+export const getFetchStatus = (state: RootState): boolean => state.countries.fetching;
+
+export const getErrorStatus = (state: RootState): boolean => state.countries.hasError;

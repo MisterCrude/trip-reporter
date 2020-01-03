@@ -1,5 +1,5 @@
 import uuid from "uuid";
-import { COMMON } from "@src/config";
+import { RESOURCES } from "@src/config";
 import { IFriend } from "@src/types/common";
 
 export const Friends = [
@@ -18,5 +18,5 @@ export const Friends = [
 export const getRandomFriend = (): IFriend => ({
     id: uuid(),
     name: Friends[Math.floor(Math.random() * 10)],
-    avatarUrl: COMMON.AVATAR_URL,
+    avatarUrl: RESOURCES.AVATAR,
 });
