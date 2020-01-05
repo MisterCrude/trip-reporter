@@ -8,56 +8,7 @@ import { Grid } from "@material-ui/core";
 import TripItem from "@src/components/TripItem";
 
 // TODO remove it from here
-const Trips: Array<ITrip> = [
-    {
-        id: "1",
-        name: "Trip one",
-        visitedCountries: ["BY", "PL"],
-        started: "01.12.2020",
-        finished: "01.12.2021",
-        duration: 20,
-        description:
-            "Lorem ipsum, dolor sit amet consecteturstinctio explicabo illo at id non blanditiis quasi beatae ad nesciunt, aspernatur eius ab?",
-        friends: ["Luk", "Grag"],
-        transitedCountries: ["BY"],
-    },
-    {
-        id: "2",
-        name: "Trip two",
-        visitedCountries: ["BY", "PL", "RU", "RF"],
-        started: "01.12.2020",
-        finished: "01.12.2021",
-        duration: 20,
-        description:
-            "Lorem ipsum, dolor sit amet consecteturstinctio explicabo illo at id non blanditiis quasi beatae ad nesciunt, aspernatur eius ab?",
-        friends: ["Luk", "Grag"],
-        transitedCountries: ["BY"],
-    },
-    {
-        id: "3",
-        name: "Trip three",
-        visitedCountries: ["BY", "PL", "RU", "RF", "BY", "PL", "RU", "RF"],
-        started: "01.12.2020",
-        finished: "01.12.2021",
-        duration: 20,
-        description:
-            "Lorem ipsum, dolor sit amet consecteturstinctio explicabo illo at id non blanditiis quasi beatae ad nesciunt, aspernatur eius ab?",
-        friends: ["Luk", "Grag"],
-        transitedCountries: ["BY"],
-    },
-    {
-        id: "4",
-        name: "Trip four",
-        visitedCountries: ["BY", "PL", "RU"],
-        started: "01.12.2020",
-        finished: "01.12.2021",
-        duration: 20,
-        description:
-            "Lorem ipsum, dolor sit amet consecteturstinctio explicabo illo at id non blanditiis quasi beatae ad nesciunt, aspernatur eius ab?",
-        friends: ["Luk", "Grag"],
-        transitedCountries: ["BY"],
-    },
-];
+const Trips: Array<ITrip> = [];
 
 const TripList: React.FC = () => {
     const triggerModal = useDispatch<typeof setShowModal>(setShowModal);

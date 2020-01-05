@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useCallback } from "react";
 import { Maybe } from "true-myth";
 import useStyles from "./styles";
 
@@ -12,10 +12,15 @@ interface Props {
 
 const FormModal: React.FC<Props> = memo(({ onCloseModal, isEditModal }) => {
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
+    const [hasSaveForm, setHasSaveForm] = useState<boolean>(false);
 
     const classes = useStyles();
 
     const isEditModalType = Maybe.of(isEditModal);
+
+    const handleSave = useCallback(() => {
+        setHasSaveForm(true);
+    }, [setHasSaveForm]);
 
     return (
         <Card className={classes.root}>
@@ -25,7 +30,7 @@ const FormModal: React.FC<Props> = memo(({ onCloseModal, isEditModal }) => {
                         {isEditModalType.map(() => "Edit").unwrapOr("Create new")} trip
                     </Typography>
                 </Box>
-                <Form onFormValid={setIsFormValid} />
+                <Form onFormValid={setIsFormValid} saveForm={hasSaveForm} onClose={onCloseModal} />
             </CardContent>
             <Divider />
             <CardContent className={classes.footer}>
@@ -37,7 +42,7 @@ const FormModal: React.FC<Props> = memo(({ onCloseModal, isEditModal }) => {
                     size="large"
                     className={classes.saveButton}
                     disabled={!isFormValid}
-                    onClick={() => {}}
+                    onClick={handleSave}
                 >
                     Save
                 </Button>
