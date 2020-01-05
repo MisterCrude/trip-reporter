@@ -14,7 +14,6 @@ export const fetchCountries = () => async (dispatch: ThunkDispatch): Promise<voi
             id: uuid(),
             name: country.name,
             code: country.alpha2Code,
-            transited: false,
         }));
 
         dispatch(fetchCountriesSuccess(countriesList));

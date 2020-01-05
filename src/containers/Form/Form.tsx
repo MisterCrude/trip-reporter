@@ -1,15 +1,14 @@
-import React, { useState, useCallback, useEffect, ChangeEvent } from "react";
+import React, { useState, useCallback, useEffect, ChangeEvent, MouseEvent } from "react";
 import { useSelector } from "react-redux";
 import DateFnsUtils from "@date-io/date-fns";
 import { getRandomFriend } from "@src/utils/friends";
 import { getTodayDate, getNextDayDate } from "@src/utils/common";
 import { IFriend } from "@src/types/common";
 import { ICountry } from "@src/types/countries";
-import { fetchCountries } from "@src/store/countries/actions";
 import { getCountriesList } from "@src/store/countries/selectors";
-import { useDispatch } from "@src/hooks/dispatch";
 import { COMMON } from "@src/config";
 
+import { Autocomplete } from "@material-ui/lab";
 import { TextField, Avatar, Grid, Box, Chip, Fab, Typography } from "@material-ui/core";
 import {
     GpsFixedRounded as GpsFixedRoundedIcon,
@@ -24,18 +23,24 @@ interface Props {
 
 const Form: React.FC<Props> = ({ onFormValid }) => {
     const countriesList = useSelector(getCountriesList);
-    const dispatchCountries = useDispatch(fetchCountries);
 
-    const [chosenCountries, setChosenCountries] = useState([
-        { id: "sdsd", code: "PL", name: "Poland", transited: false },
-        { id: "qweqw", code: "RU", name: "Russian", transited: false },
-    ]);
+    const [transitedCountries, setTransitedCountries] = useState<string[]>([]);
+    const [chosenCountries, setChosenCountries] = useState<ICountry[]>([]);
     const [friendsList, setFriendsList] = useState<IFriend[]>([]);
     const [tripNameValue, setTripNameValue] = useState<string>("");
-    const [visitedCountriesValue, setVisitedCountriesValue] = useState<string>("");
     const [startedDateValue, setStartedDateValue] = useState<Date>(getTodayDate());
     const [finishedDateValue, setFinishedDateValue] = useState<Date>(getNextDayDate(getTodayDate()));
     const [descriptionValue, setDescriptionValue] = useState<string>("");
+
+    const isCountryTransited = useCallback((id: string) => transitedCountries.indexOf(id) > -1, [transitedCountries]);
+    const isFormValid = useCallback(
+        () =>
+            !!tripNameValue.length &&
+            !!chosenCountries.length &&
+            !!descriptionValue.length &&
+            finishedDateValue.getDate() > startedDateValue.getDate(),
+        [tripNameValue, chosenCountries, descriptionValue, finishedDateValue, startedDateValue],
+    );
 
     const handleAddFriend = useCallback(() => setFriendsList([...friendsList, getRandomFriend()]), [
         friendsList,
@@ -45,47 +50,41 @@ const Form: React.FC<Props> = ({ onFormValid }) => {
         (id: string) => setFriendsList([...friendsList.filter((friend: IFriend) => friend.id !== id)]),
         [friendsList, setFriendsList],
     );
-    const handleCountryStatusTrigger = useCallback(
-        (id: string) =>
-            setChosenCountries(
-                chosenCountries.map((country: ICountry) =>
-                    country.id === id ? { ...country, transited: !country.transited } : country,
-                ),
-            ),
-        [chosenCountries, setChosenCountries],
+    const handleTransitTrigger = useCallback(
+        (id: string, event: MouseEvent) => {
+            event.stopPropagation();
+            setTransitedCountries(
+                isCountryTransited(id)
+                    ? transitedCountries.filter(filteredId => filteredId !== id)
+                    : [...transitedCountries, id],
+            );
+        },
+        [transitedCountries, setTransitedCountries, isCountryTransited],
     );
-
     const handleTextFieldChange = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
             switch (event.target.name) {
                 case "tripName":
                     setTripNameValue(event.target.value);
                     break;
-                case "visitedCountries":
-                    setVisitedCountriesValue(event.target.value);
-                    break;
+
                 case "description":
                     setDescriptionValue(event.target.value);
             }
         },
-        [setTripNameValue, setVisitedCountriesValue, setDescriptionValue],
+        [setTripNameValue, setDescriptionValue],
     );
     const handleChangeStartedDate = useCallback((date: any) => setStartedDateValue(date), [setStartedDateValue]);
     const handleChangeFinishedDate = useCallback((date: any) => setFinishedDateValue(date), [setFinishedDateValue]);
+    const handleChangeChosenCountries = useCallback((event: any, value: ICountry[]) => setChosenCountries(value), [
+        setChosenCountries,
+        chosenCountries,
+    ]);
 
-    const isFormValid = useCallback(
-        () =>
-            !!tripNameValue.length &&
-            !!countriesList.length &&
-            !!descriptionValue.length &&
-            finishedDateValue.getDate() > startedDateValue.getDate(),
-        [tripNameValue, countriesList, descriptionValue, finishedDateValue, startedDateValue],
-    );
-
+    useEffect(() => onFormValid(isFormValid()), [onFormValid, isFormValid]);
     useEffect(() => {
-        dispatchCountries();
-        onFormValid(isFormValid());
-    }, [onFormValid, isFormValid, dispatchCountries]);
+        if (chosenCountries.length) setTransitedCountries([]);
+    }, [chosenCountries, setTransitedCountries]);
 
     return (
         <form onSubmit={() => {}}>
@@ -102,34 +101,38 @@ const Form: React.FC<Props> = ({ onFormValid }) => {
                         />
                     </Grid>
                     <Grid item md={12}>
-                        <TextField
-                            fullWidth
-                            name="visitedCountries"
-                            variant="outlined"
-                            label="Visited countries"
-                            value={visitedCountriesValue}
-                            onChange={handleTextFieldChange}
-                        />
-                        <Box mt={1} display="inline-block">
-                            {!!countriesList.length && (
-                                <Box mb={1}>
-                                    <Typography variant="body2" component="p">
-                                        Click to country badge for changing to <strong>Transit</strong> status!
-                                    </Typography>
-                                </Box>
-                            )}
-                            {countriesList.map((country: ICountry) => (
-                                <Box mr={1} display="inline-block" key={country.id}>
+                        <Autocomplete
+                            multiple
+                            disableCloseOnSelect
+                            value={chosenCountries}
+                            onChange={handleChangeChosenCountries}
+                            options={countriesList}
+                            getOptionLabel={(option: ICountry) => option.name}
+                            renderTags={(value: ICountry[], getTagProps) =>
+                                value.map(({ id, name }: ICountry, index: number) => (
                                     <Chip
-                                        label={country.name}
-                                        icon={country.transited ? <ForwardRoundedIcon /> : <GpsFixedRoundedIcon />}
-                                        color={country.transited ? "default" : "primary"}
-                                        onClick={() => handleCountryStatusTrigger(country.id)}
-                                        onDelete={() => {}}
+                                        key={id}
+                                        label={name}
+                                        {...getTagProps({ index })}
+                                        icon={isCountryTransited(id) ? <ForwardRoundedIcon /> : <GpsFixedRoundedIcon />}
+                                        color={isCountryTransited(id) ? "default" : "primary"}
+                                        onClick={(event: MouseEvent) => {
+                                            handleTransitTrigger(id, event);
+                                        }}
                                     />
-                                </Box>
-                            ))}
-                        </Box>
+                                ))
+                            }
+                            renderInput={params => (
+                                <TextField {...params} label="Visited countries" variant="outlined" fullWidth />
+                            )}
+                        />
+                        {!!chosenCountries.length && (
+                            <Box my={1}>
+                                <Typography variant="body2" component="p">
+                                    Click to country badge for changing to <strong>Transit</strong> status!
+                                </Typography>
+                            </Box>
+                        )}
                     </Grid>
                     <Grid item md={6}>
                         <DatePicker
