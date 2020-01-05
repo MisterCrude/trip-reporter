@@ -7,7 +7,6 @@ type TripsState = ITrip[];
 
 export type TripsAction = IAction<keyof typeof TripsTypes, any>;
 
-// TODO true-myth
 export const initialState: TripsState = [];
 
 export default (state: TripsState = initialState, { type, payload }: TripsAction): TripsState => {

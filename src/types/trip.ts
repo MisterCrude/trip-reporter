@@ -6,6 +6,6 @@ export interface ITrip {
     duration: number;
     description: string;
     friends: Array<string>;
-    visitedCountries: Array<string>; // TODO list of country codes
-    transitedCountries: Array<string>; // TODO list of country codes
+    visitedCountries: Array<string>;
+    transitedCountries: Array<string>;
 }

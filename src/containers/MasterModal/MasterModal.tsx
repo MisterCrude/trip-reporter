@@ -14,8 +14,6 @@ const MasterModal: React.FC = () => {
     const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
     const handleClose = useCallback(() => triggerModal(ModalTypes.NONE), [triggerModal]);
 
-    // TODO Check in lifecicle id of edit trip
-
     return (
         <Modal
             open={showModal !== ModalTypes.NONE}

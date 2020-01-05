@@ -12,7 +12,7 @@ import Panel from "@src/containers/Panel";
 const App: React.FC = () => {
     const dispatchCountries = useDispatch(fetchCountries);
 
-    useEffect(() => dispatchCountries(), []);
+    useEffect(() => dispatchCountries(), [dispatchCountries]);
 
     return (
         <Box py={8} component="main">

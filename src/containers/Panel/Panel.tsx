@@ -3,8 +3,8 @@ import { useDispatch } from "@src/hooks/dispatch";
 import { setShowModal } from "@src/store/app/actions";
 import { ModalTypes } from "@src/types/common";
 
-import { Button, Fab, Box } from "@material-ui/core";
-import { Favorite as FavoriteIcon } from "@material-ui/icons";
+import { Button, Box } from "@material-ui/core";
+import { FavoriteBorder as FavoriteBorderIcon } from "@material-ui/icons";
 
 const Panel: React.FC = () => {
     const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
@@ -16,9 +16,9 @@ const Panel: React.FC = () => {
             <Button onClick={handleAddClick} size="large" variant="contained" color="primary">
                 Create new trip
             </Button>
-            <Fab color="secondary" size="small">
-                <FavoriteIcon />
-            </Fab>
+            <Button color="secondary" variant="outlined" endIcon={<FavoriteBorderIcon />}>
+                Favorite trips
+            </Button>
         </Box>
     );
 };

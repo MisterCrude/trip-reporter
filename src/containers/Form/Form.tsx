@@ -78,7 +78,6 @@ const Form: React.FC<Props> = ({ onFormValid }) => {
     const handleChangeFinishedDate = useCallback((date: any) => setFinishedDateValue(date), [setFinishedDateValue]);
     const handleChangeChosenCountries = useCallback((event: any, value: ICountry[]) => setChosenCountries(value), [
         setChosenCountries,
-        chosenCountries,
     ]);
 
     useEffect(() => onFormValid(isFormValid()), [onFormValid, isFormValid]);
@@ -95,7 +94,14 @@ const Form: React.FC<Props> = ({ onFormValid }) => {
                             fullWidth
                             name="tripName"
                             variant="outlined"
-                            label="Trip name"
+                            label={
+                                <>
+                                    Trip name
+                                    <Box color="secondary.main" display="inline" fontWeight="fontWeightBold">
+                                        &nbsp;*
+                                    </Box>
+                                </>
+                            }
                             value={tripNameValue}
                             onChange={handleTextFieldChange}
                         />
@@ -123,7 +129,19 @@ const Form: React.FC<Props> = ({ onFormValid }) => {
                                 ))
                             }
                             renderInput={params => (
-                                <TextField {...params} label="Visited countries" variant="outlined" fullWidth />
+                                <TextField
+                                    {...params}
+                                    label={
+                                        <>
+                                            Visited countries
+                                            <Box color="secondary.main" display="inline" fontWeight="fontWeightBold">
+                                                &nbsp;*
+                                            </Box>
+                                        </>
+                                    }
+                                    variant="outlined"
+                                    fullWidth
+                                />
                             )}
                         />
                         {!!chosenCountries.length && (
@@ -166,7 +184,14 @@ const Form: React.FC<Props> = ({ onFormValid }) => {
                             rows="4"
                             variant="outlined"
                             name="description"
-                            label="Description"
+                            label={
+                                <>
+                                    Description
+                                    <Box color="secondary.main" display="inline" fontWeight="fontWeightBold">
+                                        &nbsp;*
+                                    </Box>
+                                </>
+                            }
                             value={descriptionValue}
                             onChange={handleTextFieldChange}
                         />
