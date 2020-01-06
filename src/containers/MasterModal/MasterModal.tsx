@@ -10,7 +10,7 @@ import DetailsModal from "@src/components/DetailsModal";
 import FormModal from "@src/components/FormModal";
 
 const MasterModal: React.FC = () => {
-    const showModal = useSelector(getShowModal);
+    const showModal: ModalTypes = useSelector(getShowModal);
     const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
     const handleClose = useCallback(() => triggerModal(ModalTypes.NONE), [triggerModal]);
 

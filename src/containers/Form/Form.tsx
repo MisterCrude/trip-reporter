@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, ChangeEvent, MouseEvent } from "react";
+import DateFnsUtils from "@date-io/date-fns";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@src/hooks/dispatch";
-import DateFnsUtils from "@date-io/date-fns";
 import { getRandomFriend } from "@src/utils/friends";
 import { getTodayDate, getNextDayDate, getDaysDifference } from "@src/utils/dates";
 import { IFriend } from "@src/types/common";
@@ -20,13 +20,13 @@ import {
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 
 interface Props {
-    onFormValid: (state: boolean) => void;
     saveForm: boolean;
+    onFormValid: (state: boolean) => void;
     onClose: () => void;
 }
 
 const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
-    const countriesList = useSelector(getCountriesList);
+    const countriesList: ICountry[] = useSelector(getCountriesList);
     const dispatchAddTrip = useDispatch<typeof addTrip>(addTrip);
 
     const [transitedCountries, setTransitedCountries] = useState<string[]>([]);
@@ -94,8 +94,8 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
             dispatchAddTrip({
                 name: tripNameValue,
                 visitedCountries: chosenCountries.map(country => country.id),
-                started: startedDateValue,
-                finished: finishedDateValue,
+                started: startedDateValue.getTime(),
+                finished: finishedDateValue.getTime(),
                 duration: getDaysDifference(startedDateValue, finishedDateValue),
                 description: descriptionValue,
                 friends: friendsList,

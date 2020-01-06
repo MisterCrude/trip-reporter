@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useDispatch } from "@src/hooks/dispatch";
 import { fetchCountries } from "@src/store/countries/actions";
+import { fetchTrips } from "@src/store/trips/actions";
 
 import { Container, Box, AppBar, Toolbar } from "@material-ui/core";
 import MasterModal from "@src/containers/MasterModal";
@@ -10,9 +11,13 @@ import Filters from "@src/containers/Filters";
 import Panel from "@src/containers/Panel";
 
 const App: React.FC = () => {
-    const dispatchCountries = useDispatch(fetchCountries);
+    const dispatchCountries = useDispatch<typeof fetchCountries>(fetchCountries);
+    const dispatchTrips = useDispatch<typeof fetchTrips>(fetchTrips);
 
-    useEffect(() => dispatchCountries(), [dispatchCountries]);
+    useEffect(() => {
+        dispatchTrips();
+        dispatchCountries();
+    }, [dispatchCountries, dispatchTrips]);
 
     return (
         <Box py={8} component="main">
@@ -26,7 +31,6 @@ const App: React.FC = () => {
             </AppBar>
             <Container>
                 <Filters />
-
                 <TripList />
             </Container>
             <MasterModal />

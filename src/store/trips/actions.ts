@@ -5,18 +5,23 @@ import { ITrip } from "@src/types/trip";
 import TripsTypes from "./types";
 import uuid from "uuid";
 
-export const fetchTrips = () => (dispatch: ThunkDispatch): void => {};
+export const fetchTrips = () => (dispatch: ThunkDispatch): void => {
+    const trips = effects.fetchTrips();
+
+    dispatch(trips ? addTripsSuccess(trips) : tripError());
+};
 
 export const addTrip = (trip: Exclude<ITrip, "id">) => (dispatch: ThunkDispatch): void => {
     const tripData = { id: uuid(), ...trip };
     const isAdded = effects.addTrip(tripData);
 
-    if (isAdded) {
-        dispatch(addTripSuccess(tripData));
-    } else {
-        dispatch(tripError());
-    }
+    dispatch(isAdded ? addTripSuccess(tripData) : tripError());
 };
+
+export const addTripsSuccess = (tripsData: ITrip[]): TripsAction => ({
+    type: TripsTypes.TRIPS_ADD_LIST,
+    payload: tripsData,
+});
 
 export const addTripSuccess = (tripData: ITrip): TripsAction => ({
     type: TripsTypes.TRIPS_ADD,

@@ -1,4 +1,4 @@
 import { RootState } from "@src/types/store";
-import { ModalTypes } from "@src/types/common";
+import { ITrip } from "@src/types/trip";
 
-// export const getShowModal = (state: RootState): ModalTypes => state.app.showModal;
+export const getTripsList = (state: RootState): ITrip[] => state.trips.tripsList;

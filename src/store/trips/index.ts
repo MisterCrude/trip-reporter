@@ -17,7 +17,13 @@ export const initialState: TripsState = {
 export default (state: TripsState = initialState, { type, payload }: TripsAction): TripsState => {
     switch (type) {
         case TripsTypes.TRIPS_ADD:
-            return { ...state, tripsList: [...state.tripsList, payload], hasError: false };
+            return { ...state, tripsList: [payload, ...state.tripsList], hasError: false };
+
+        case TripsTypes.TRIPS_ADD_LIST:
+            return { ...state, tripsList: payload, hasError: false };
+
+        case TripsTypes.TRIPS_ERROR:
+            return { ...state, tripsList: [], hasError: true };
 
         default:
             return state;

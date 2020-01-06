@@ -1,6 +1,7 @@
 export const COMMON = {
     FRINEDS_LIMIT: 10,
     DATE_FORMAT: "dd/MM/yyyy",
+    STORE_DATA_NAME: "trips",
 };
 
 export const RESOURCES = {
