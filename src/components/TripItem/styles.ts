@@ -5,6 +5,11 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             cursor: "pointer",
+            transition: "0.3s",
+            "&:hover": {
+                transform: "scale(1.01)",
+                boxShadow: theme.shadows[3],
+            },
         },
         content: {
             "&, &:last-child": {

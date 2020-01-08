@@ -2,6 +2,7 @@ import React, { memo, useCallback } from "react";
 import { ITrip } from "@src/types/trip";
 import { ICountry } from "@src/types/countries";
 import { convertTimeStamp } from "@src/utils/dates";
+import { cutLargeText } from "@src/utils/common";
 import useStyles from "./styles";
 
 import {
@@ -50,7 +51,7 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
                 />
 
                 <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
-                    {description}
+                    {cutLargeText(description)}
                 </Typography>
             </CardContent>
             <Divider />

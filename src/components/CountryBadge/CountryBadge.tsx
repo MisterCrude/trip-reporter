@@ -1,6 +1,6 @@
 import React, { memo, MouseEvent } from "react";
 import { ICountry } from "@src/types/countries";
-import { getFlagUrlByCode } from "@src/utils/countries";
+import { getFlagUrlByCode } from "@src/utils/common";
 import useStyles from "./styles";
 
 import { Chip, Avatar } from "@material-ui/core";

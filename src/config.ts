@@ -1,4 +1,5 @@
 export const COMMON = {
+    TRIP_SHORT_DESCRIPTION_LEN: 30,
     FRINEDS_LIMIT: 10,
     DATE_FORMAT: "dd/MM/yyyy",
     STORE_DATA_NAME: "trips",
