@@ -12,12 +12,9 @@ import { COMMON } from "@src/config";
 
 import { Autocomplete } from "@material-ui/lab";
 import { TextField, Avatar, Grid, Box, Chip, Fab, Typography } from "@material-ui/core";
-import {
-    GpsFixedRounded as GpsFixedRoundedIcon,
-    ForwardRounded as ForwardRoundedIcon,
-    Add as AddIcon,
-} from "@material-ui/icons";
+import { Add as AddIcon } from "@material-ui/icons";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import CountryBadge from "@src/components/CountryBadge";
 
 interface Props {
     saveForm: boolean;
@@ -29,7 +26,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
     const countriesList: ICountry[] = useSelector(getCountriesList);
     const dispatchAddTrip = useDispatch<typeof addTrip>(addTrip);
 
-    const [transitedCountries, setTransitedCountries] = useState<string[]>([]);
+    const [transitedCountriesId, setTransitedCountriesId] = useState<string[]>([]);
     const [chosenCountries, setChosenCountries] = useState<ICountry[]>([]);
     const [friendsList, setFriendsList] = useState<IFriend[]>([]);
     const [tripNameValue, setTripNameValue] = useState<string>("");
@@ -37,7 +34,9 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
     const [finishedDateValue, setFinishedDateValue] = useState<Date>(getNextDayDate(getTodayDate()));
     const [descriptionValue, setDescriptionValue] = useState<string>("");
 
-    const isCountryTransited = useCallback((id: string) => transitedCountries.indexOf(id) > -1, [transitedCountries]);
+    const isCountryTransited = useCallback((id: string) => transitedCountriesId.indexOf(id) > -1, [
+        transitedCountriesId,
+    ]);
     const isFormValid = useCallback(
         () =>
             !!tripNameValue.length &&
@@ -55,16 +54,16 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
         (id: string) => setFriendsList([...friendsList.filter((friend: IFriend) => friend.id !== id)]),
         [friendsList, setFriendsList],
     );
-    const handleTransitTrigger = useCallback(
+    const handleTransitedTrigger = useCallback(
         (id: string, event: MouseEvent) => {
             event.stopPropagation();
-            setTransitedCountries(
+            setTransitedCountriesId(
                 isCountryTransited(id)
-                    ? transitedCountries.filter(filteredId => filteredId !== id)
-                    : [...transitedCountries, id],
+                    ? transitedCountriesId.filter(filteredId => filteredId !== id)
+                    : [...transitedCountriesId, id],
             );
         },
-        [transitedCountries, setTransitedCountries, isCountryTransited],
+        [transitedCountriesId, setTransitedCountriesId, isCountryTransited],
     );
     const handleTextFieldChange = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -87,19 +86,19 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
 
     useEffect(() => onFormValid(isFormValid()), [onFormValid, isFormValid]);
     useEffect(() => {
-        if (chosenCountries.length) setTransitedCountries([]);
-    }, [chosenCountries, setTransitedCountries]);
+        if (chosenCountries.length) setTransitedCountriesId([]);
+    }, [chosenCountries, setTransitedCountriesId]);
     useEffect(() => {
         if (saveForm) {
             dispatchAddTrip({
                 name: tripNameValue,
-                visitedCountries: chosenCountries.map(country => country.id),
+                visitedCountries: chosenCountries,
+                transitedCountries: transitedCountriesId,
                 started: startedDateValue.getTime(),
                 finished: finishedDateValue.getTime(),
                 duration: getDaysDifference(startedDateValue, finishedDateValue),
                 description: descriptionValue,
                 friends: friendsList,
-                transitedCountries: transitedCountries,
             });
             onClose();
         }
@@ -113,7 +112,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
         finishedDateValue,
         descriptionValue,
         friendsList,
-        transitedCountries,
+        transitedCountriesId,
     ]);
 
     return (
@@ -143,17 +142,14 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
                         onChange={handleChangeChosenCountries}
                         options={countriesList}
                         getOptionLabel={(option: ICountry) => option.name}
-                        renderTags={(value: ICountry[], getTagProps) =>
-                            value.map(({ id, name }: ICountry, index: number) => (
-                                <Chip
-                                    key={id}
-                                    label={name}
-                                    {...getTagProps({ index })}
-                                    icon={isCountryTransited(id) ? <ForwardRoundedIcon /> : <GpsFixedRoundedIcon />}
-                                    color={isCountryTransited(id) ? "default" : "primary"}
-                                    onClick={(event: MouseEvent) => {
-                                        handleTransitTrigger(id, event);
-                                    }}
+                        renderTags={(countries: ICountry[], getTagProps) =>
+                            countries.map((country: ICountry, index: number) => (
+                                <CountryBadge
+                                    key={country.id}
+                                    countryData={country}
+                                    isTransited={isCountryTransited(country.id)}
+                                    tagProps={getTagProps({ index })}
+                                    onClick={handleTransitedTrigger}
                                 />
                             ))
                         }

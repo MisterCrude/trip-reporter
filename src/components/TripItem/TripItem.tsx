@@ -1,19 +1,19 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { ITrip } from "@src/types/trip";
+import { ICountry } from "@src/types/countries";
+import { convertTimeStamp } from "@src/utils/dates";
 import useStyles from "./styles";
 
 import {
-    GpsFixedRounded as GpsFixedRoundedIcon,
     QueryBuilder as QueryBuilderIcon,
     FavoriteBorder as FavoriteBorderIcon,
     Favorite as FavoriteIcon,
 } from "@material-ui/icons";
 import { Card, CardContent, Typography, Divider, Chip, IconButton, Box } from "@material-ui/core";
+import CountryBadge from "@src/components/CountryBadge";
 
+// TODO remove this
 const favoriteTrips = ["1", "2"];
-
-// TODO move this function to select in redux layer
-const isFavoriteTrip = (tripId: string) => favoriteTrips.includes(tripId);
 
 interface Props {
     tripData: ITrip;
@@ -21,7 +21,12 @@ interface Props {
 
 const Trip: React.FC<Props> = memo(({ tripData }) => {
     const classes = useStyles();
-    const { id, name, visitedCountries, started, finished, description } = tripData;
+    const { id, name, visitedCountries, started, finished, description, transitedCountries } = tripData;
+
+    const isFavoriteTrip = useCallback((tripId: string) => favoriteTrips.includes(tripId), [favoriteTrips]);
+    const isTransitedCountry = useCallback((countryId: string) => transitedCountries.includes(countryId), [
+        transitedCountries,
+    ]);
 
     return (
         <Card className={classes.root}>
@@ -38,7 +43,7 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
                     icon={<QueryBuilderIcon />}
                     label={
                         <>
-                            <strong>{started}</strong> - <strong>{finished}</strong>
+                            <strong>{convertTimeStamp(started)}</strong> - <strong>{convertTimeStamp(finished)}</strong>
                         </>
                     }
                     variant="outlined"
@@ -50,13 +55,11 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
             </CardContent>
             <Divider />
             <CardContent className={classes.footer}>
-                {Object.values(visitedCountries)
-                    .slice(0, 8)
-                    .map((countryName: any, i) => (
-                        <Box mr={1} display="inline-block" key={countryName + i}>
-                            <Chip label={countryName} icon={<GpsFixedRoundedIcon />} />
-                        </Box>
-                    ))}
+                {visitedCountries.slice(0, 8).map((country: ICountry) => (
+                    <Box mr={1} display="inline-block" key={country.id}>
+                        <CountryBadge countryData={country} isTransited={isTransitedCountry(country.id)} />
+                    </Box>
+                ))}
             </CardContent>
         </Card>
     );

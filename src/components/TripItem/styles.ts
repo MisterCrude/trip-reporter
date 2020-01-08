@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         footer: {
+            background: theme.palette.grey[50],
             "&, &:last-child": {
                 padding: theme.spacing(2, 4),
             },
