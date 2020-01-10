@@ -1,7 +1,4 @@
 import React, { memo, useCallback } from "react";
-import { setShowModal } from "@src/store/app/actions";
-import { useDispatch } from "@src/hooks/dispatch";
-import { ModalTypes } from "@src/types/common";
 import useStyles from "./styles";
 
 import {
@@ -26,22 +23,26 @@ import {
 
 interface Props {
     onCloseModal: () => void;
+    onEditTrip: () => void;
+    onDeleteTrip: () => void;
 }
 
-const DetailsModal: React.FC<Props> = memo(({ onCloseModal }) => {
+const DetailsModal: React.FC<Props> = memo(({ onCloseModal, onEditTrip, onDeleteTrip }) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const open = Boolean(anchorEl);
 
     const classes = useStyles();
-    const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
 
-    const handleEditClick = useCallback(
-        (id: string) => {
-            triggerModal(ModalTypes.MODAL_EDIT);
-            setAnchorEl(null);
-        },
-        [triggerModal, setAnchorEl],
-    );
+    const handleEditClick = useCallback(() => {
+        onEditTrip();
+        setAnchorEl(null);
+    }, [onEditTrip, setAnchorEl]);
+
+    const handleDeleteClick = useCallback(() => {
+        onDeleteTrip();
+        setAnchorEl(null);
+    }, []);
+
     const handleOpenPopover = useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
             setAnchorEl(event.currentTarget);
@@ -99,10 +100,10 @@ const DetailsModal: React.FC<Props> = memo(({ onCloseModal }) => {
                     }}
                 >
                     <List>
-                        <ListItem button className={classes.editIcon} onClick={() => handleEditClick("some_ID")}>
+                        <ListItem button className={classes.editIcon} onClick={handleEditClick}>
                             <EditIcon /> Eidt
                         </ListItem>
-                        <ListItem button className={classes.deleteIcon}>
+                        <ListItem button className={classes.deleteIcon} onClick={handleDeleteClick}>
                             <DeleteIcon /> Delete
                         </ListItem>
                     </List>

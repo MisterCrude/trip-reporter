@@ -1,4 +1,4 @@
-import { ThunkDispatch } from "@src/types/store";
+import { ThunkDispatch, RootState } from "@src/types/store";
 import { TripsAction } from ".";
 import * as effects from "./effects";
 import { ITrip } from "@src/types/trip";
@@ -28,8 +28,19 @@ export const addTripSuccess = (tripData: ITrip): TripsAction => ({
     payload: tripData,
 });
 
-export const removeTrip = (tripId: string): TripsAction => ({
-    type: TripsTypes.TRIPS_ADD_LIST,
+export const removeTrip = (tripId: string) => (dispatch: ThunkDispatch): void => {
+    const isRemoved = effects.removeTrip(tripId);
+
+    dispatch(isRemoved ? removeTripSuccess(tripId) : tripError());
+};
+
+export const removeTripSuccess = (tripId: string): TripsAction => ({
+    type: TripsTypes.TRIPS_REMOVE,
+    payload: tripId,
+});
+
+export const setActiveTrip = (tripId: string): TripsAction => ({
+    type: TripsTypes.TRIPS_SET_ACTIVE,
     payload: tripId,
 });
 

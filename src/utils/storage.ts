@@ -1,12 +1,12 @@
 import { Maybe } from "true-myth";
 
-export const setState = <T>(name: string, storeState: T): boolean => {
+export const setStateItem = <T>(name: string, storeState: T): boolean => {
     if (!localStorage) {
         return false;
     }
 
     try {
-        const existingData = Maybe.of<T[]>(getState<T[]>(name))
+        const existingData = Maybe.of<T[]>(getState<T>(name))
             .map((state: T[]) => state)
             .unwrapOr([]);
 
@@ -20,17 +20,36 @@ export const setState = <T>(name: string, storeState: T): boolean => {
     }
 };
 
-export const getState = <T>(stateName: string): T | undefined => {
+export const setState = <T>(name: string, storeState: T[]): boolean => {
+    if (!localStorage) {
+        return false;
+    }
+
+    try {
+        if (storeState.length) {
+            const serializedState = JSON.stringify(storeState);
+
+            localStorage.setItem(name, serializedState);
+        } else {
+            removeState(name);
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Store serialization failed");
+        return false;
+    }
+};
+
+export const getState = <T>(stateName: string): T[] | undefined => {
     if (!localStorage) {
         return;
     }
 
     try {
         const serializedState = localStorage.getItem(stateName);
-        if (serializedState == null) {
-            return;
-        }
-        return JSON.parse(serializedState);
+
+        return JSON.parse(serializedState ? serializedState : "[]");
     } catch (error) {
         console.error("Store deserialization failed");
         return;

@@ -1,8 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@src/hooks/dispatch";
 import { getShowModal } from "@src/store/app/selectors";
+import { getActiveTrip } from "@src/store/trips/selectors";
 import { setShowModal } from "@src/store/app/actions";
+import { removeTrip, setActiveTrip } from "@src/store/trips/actions";
 import { ModalTypes } from "@src/types/common";
 
 import { Backdrop, Box, Modal, Fade } from "@material-ui/core";
@@ -11,8 +13,21 @@ import FormModal from "@src/components/FormModal";
 
 const MasterModal: React.FC = () => {
     const showModal: ModalTypes = useSelector(getShowModal);
-    const triggerModal = useDispatch<typeof setShowModal>(setShowModal);
-    const handleClose = useCallback(() => triggerModal(ModalTypes.NONE), [triggerModal]);
+    const activeTripId: string = useSelector(getActiveTrip);
+    const dispatchModal = useDispatch<typeof setShowModal>(setShowModal);
+    const dispatchRemoveTrip = useDispatch<typeof removeTrip>(removeTrip);
+    const dispatchActiveTrip = useDispatch<typeof setActiveTrip>(setActiveTrip);
+
+    const handleClose = useCallback(() => dispatchModal(ModalTypes.NONE), [dispatchModal]);
+    const handleEdit = useCallback(() => dispatchModal(ModalTypes.MODAL_EDIT), [dispatchModal]);
+    const handleDelete = useCallback(() => {
+        dispatchRemoveTrip(activeTripId);
+        handleClose();
+    }, [dispatchRemoveTrip, activeTripId, handleClose]);
+
+    useEffect(() => {
+        showModal === ModalTypes.NONE && dispatchActiveTrip("");
+    }, [showModal, dispatchActiveTrip]);
 
     return (
         <Modal
@@ -26,7 +41,9 @@ const MasterModal: React.FC = () => {
         >
             <Fade in={showModal !== ModalTypes.NONE}>
                 <Box>
-                    {showModal === ModalTypes.MODAL_DETAILS && <DetailsModal onCloseModal={handleClose} />}
+                    {showModal === ModalTypes.MODAL_DETAILS && (
+                        <DetailsModal onCloseModal={handleClose} onEditTrip={handleEdit} onDeleteTrip={handleDelete} />
+                    )}
                     {showModal === ModalTypes.MODAL_EDIT && <FormModal isEditModal onCloseModal={handleClose} />}
                     {showModal === ModalTypes.MODAL_ADD && <FormModal onCloseModal={handleClose} />}
                 </Box>
