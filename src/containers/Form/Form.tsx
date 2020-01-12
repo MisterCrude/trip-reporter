@@ -11,7 +11,7 @@ import { addTrip } from "@src/store/trips/actions";
 import { COMMON } from "@src/config";
 
 import { Autocomplete } from "@material-ui/lab";
-import { TextField, Avatar, Grid, Box, Chip, Fab, Typography } from "@material-ui/core";
+import { TextField, Avatar, Grid, Box, Chip, Fab, Typography, CircularProgress } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import CountryBadge from "@src/components/CountryBadge";
@@ -26,6 +26,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
     const countriesList: ICountry[] = useSelector(getCountriesList);
     const dispatchAddTrip = useDispatch<typeof addTrip>(addTrip);
 
+    const [loadingFriendId, setLoadingFriendId] = useState<string>("");
     const [transitedCountriesId, setTransitedCountriesId] = useState<string[]>([]);
     const [chosenCountries, setChosenCountries] = useState<ICountry[]>([]);
     const [friendsList, setFriendsList] = useState<IFriend[]>([]);
@@ -46,10 +47,12 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
         [tripNameValue, chosenCountries, descriptionValue, finishedDateValue, startedDateValue],
     );
 
-    const handleAddFriend = useCallback(() => setFriendsList([...friendsList, getRandomFriend()]), [
-        friendsList,
-        setFriendsList,
-    ]);
+    const handleAddFriend = useCallback(() => {
+        const newFriend = getRandomFriend();
+
+        setLoadingFriendId(newFriend.id);
+        setFriendsList([...friendsList, newFriend]);
+    }, [friendsList, setFriendsList, setLoadingFriendId]);
     const handleDeleteFriend = useCallback(
         (id: string) => setFriendsList([...friendsList.filter((friend: IFriend) => friend.id !== id)]),
         [friendsList, setFriendsList],
@@ -222,28 +225,45 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
                     />
                 </Grid>
                 <Grid item md={12}>
-                    <Fab
-                        variant="extended"
-                        size="medium"
-                        color="primary"
-                        onClick={() => handleAddFriend()}
-                        disabled={friendsList.length > COMMON.FRINEDS_LIMIT}
-                    >
-                        <AddIcon fontSize="small" /> &nbsp; Invite friend
-                    </Fab>
-                    {!!friendsList.length && (
-                        <Box mt={2}>
-                            {friendsList.map((friend: IFriend) => (
-                                <Box display="inline-block" mr={1} mb={1} key={friend.id}>
-                                    <Chip
-                                        avatar={<Avatar alt={friend.name} src={friend.avatarUrl} />}
-                                        label={friend.name}
-                                        onDelete={() => handleDeleteFriend(friend.id)}
+                    <Box mb={2}>
+                        <Fab
+                            variant="extended"
+                            size="medium"
+                            color="primary"
+                            onClick={() => handleAddFriend()}
+                            disabled={friendsList.length > COMMON.FRINEDS_LIMIT || !!loadingFriendId}
+                        >
+                            {!!loadingFriendId ? (
+                                <>
+                                    <CircularProgress size={20} /> &nbsp; Waiting for response...
+                                </>
+                            ) : (
+                                <>
+                                    <AddIcon fontSize="small" /> &nbsp; Invite friend
+                                </>
+                            )}
+                        </Fab>
+                    </Box>
+                    {friendsList.map((friend: IFriend) => (
+                        <Box
+                            display={friend.id === loadingFriendId ? "none" : "inline-block"}
+                            mr={1}
+                            mb={1}
+                            key={friend.id}
+                        >
+                            <Chip
+                                avatar={
+                                    <Avatar
+                                        alt={friend.name}
+                                        src={friend.avatarUrl}
+                                        onLoad={() => setLoadingFriendId("")}
                                     />
-                                </Box>
-                            ))}
+                                }
+                                label={friend.name}
+                                onDelete={() => handleDeleteFriend(friend.id)}
+                            />
                         </Box>
-                    )}
+                    ))}
                 </Grid>
             </Grid>
         </MuiPickersUtilsProvider>
