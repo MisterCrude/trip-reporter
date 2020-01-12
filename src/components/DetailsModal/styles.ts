@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme: Theme) =>
         marginRight: {
             marginRight: theme.spacing(2),
         },
+        divider: {
+            flexGrow: 1,
+            marginLeft: theme.spacing(2),
+        },
     }),
 );
 

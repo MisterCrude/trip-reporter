@@ -3,7 +3,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@src/hooks/dispatch";
 import { getRandomFriend } from "@src/utils/friends";
-import { getTodayDate, getNextDayDate, getDaysDifference } from "@src/utils/dates";
+import { getTodayDate, getDaysDifference } from "@src/utils/dates";
 import { IFriend } from "@src/types/common";
 import { ICountry } from "@src/types/countries";
 import { getCountriesList } from "@src/store/countries/selectors";
@@ -32,7 +32,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
     const [friendsList, setFriendsList] = useState<IFriend[]>([]);
     const [tripNameValue, setTripNameValue] = useState<string>("");
     const [startedDateValue, setStartedDateValue] = useState<Date>(getTodayDate());
-    const [finishedDateValue, setFinishedDateValue] = useState<Date>(getNextDayDate(getTodayDate()));
+    const [finishedDateValue, setFinishedDateValue] = useState<Date>(getTodayDate());
     const [descriptionValue, setDescriptionValue] = useState<string>("");
 
     const isCountryTransited = useCallback((id: string) => transitedCountriesId.indexOf(id) > -1, [
@@ -43,7 +43,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
             !!tripNameValue.length &&
             !!chosenCountries.length &&
             !!descriptionValue.length &&
-            finishedDateValue.getDate() > startedDateValue.getDate(),
+            finishedDateValue.getDate() >= startedDateValue.getDate(),
         [tripNameValue, chosenCountries, descriptionValue, finishedDateValue, startedDateValue],
     );
 
@@ -196,7 +196,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
                     <DatePicker
                         fullWidth
                         disableToolbar
-                        minDate={getNextDayDate(startedDateValue)}
+                        minDate={startedDateValue}
                         variant="inline"
                         inputVariant="outlined"
                         label="Finished Date"

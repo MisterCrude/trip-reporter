@@ -2,7 +2,8 @@ import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@src/hooks/dispatch";
 import { getShowModal } from "@src/store/app/selectors";
-import { getActiveTrip } from "@src/store/trips/selectors";
+import { ITrip } from "@src/types/trip";
+import { getActiveTrip, getActiveTripData } from "@src/store/trips/selectors";
 import { setShowModal } from "@src/store/app/actions";
 import { removeTrip, setActiveTrip } from "@src/store/trips/actions";
 import { ModalTypes } from "@src/types/common";
@@ -12,6 +13,7 @@ import DetailsModal from "@src/components/DetailsModal";
 import FormModal from "@src/components/FormModal";
 
 const MasterModal: React.FC = () => {
+    const activeTripData: ITrip | null = useSelector(getActiveTripData);
     const showModal: ModalTypes = useSelector(getShowModal);
     const activeTripId: string = useSelector(getActiveTrip);
     const dispatchModal = useDispatch<typeof setShowModal>(setShowModal);
@@ -42,7 +44,12 @@ const MasterModal: React.FC = () => {
             <Fade in={showModal !== ModalTypes.NONE}>
                 <Box>
                     {showModal === ModalTypes.MODAL_DETAILS && (
-                        <DetailsModal onCloseModal={handleClose} onEditTrip={handleEdit} onDeleteTrip={handleDelete} />
+                        <DetailsModal
+                            onCloseModal={handleClose}
+                            onEditTrip={handleEdit}
+                            onDeleteTrip={handleDelete}
+                            activeTripData={activeTripData}
+                        />
                     )}
                     {showModal === ModalTypes.MODAL_EDIT && <FormModal isEditModal onCloseModal={handleClose} />}
                     {showModal === ModalTypes.MODAL_ADD && <FormModal onCloseModal={handleClose} />}

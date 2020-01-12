@@ -15,8 +15,8 @@ export const Friends = [
     "Bryan Miles",
 ];
 
-export const getRandomFriend = (): IFriend => ({
-    id: uuid(),
-    name: Friends[Math.floor(Math.random() * 10)],
-    avatarUrl: RESOURCES.AVATAR,
-});
+export const getRandomFriend = (): IFriend => {
+    const uuId = uuid();
+
+    return { id: uuId, name: Friends[Math.floor(Math.random() * 10)], avatarUrl: `${RESOURCES.AVATAR}${uuId}` };
+};
