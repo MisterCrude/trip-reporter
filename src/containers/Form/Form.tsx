@@ -4,10 +4,11 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "@src/hooks/dispatch";
 import { getRandomFriend } from "@src/utils/friends";
 import { getTodayDate, getDaysDifference } from "@src/utils/dates";
-import { IFriend } from "@src/types/common";
+import { IFriend, AlertTypes } from "@src/types/common";
 import { ICountry } from "@src/types/countries";
 import { getCountriesList } from "@src/store/countries/selectors";
 import { addTrip } from "@src/store/trips/actions";
+import { setShowAlert } from "@src/store/alerts/actions";
 import { COMMON } from "@src/config";
 
 import { Autocomplete } from "@material-ui/lab";
@@ -25,6 +26,7 @@ interface Props {
 const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
     const countriesList: ICountry[] = useSelector(getCountriesList);
     const dispatchAddTrip = useDispatch<typeof addTrip>(addTrip);
+    const dispatchShowAlert = useDispatch<typeof setShowAlert>(setShowAlert);
 
     const [loadingFriendId, setLoadingFriendId] = useState<string>("");
     const [transitedCountriesId, setTransitedCountriesId] = useState<string[]>([]);
@@ -103,6 +105,10 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
                 description: descriptionValue,
                 friends: friendsList,
             });
+            dispatchShowAlert({
+                showAlert: AlertTypes.ALERT_SUCCESS,
+                message: `Trip was successfully saves`,
+            });
             onClose();
         }
     }, [
@@ -116,6 +122,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
         descriptionValue,
         friendsList,
         transitedCountriesId,
+        dispatchShowAlert,
     ]);
 
     return (

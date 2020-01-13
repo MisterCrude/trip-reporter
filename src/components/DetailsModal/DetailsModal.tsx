@@ -32,7 +32,7 @@ interface Props {
     activeTripData: ITrip | null;
     onCloseModal: () => void;
     onEditTrip: () => void;
-    onDeleteTrip: () => void;
+    onDeleteTrip: (tripName: string) => void;
 }
 
 const DetailsModal: React.FC<Props> = memo(({ onCloseModal, onEditTrip, onDeleteTrip, activeTripData }) => {
@@ -46,10 +46,13 @@ const DetailsModal: React.FC<Props> = memo(({ onCloseModal, onEditTrip, onDelete
         setAnchorEl(null);
     }, [onEditTrip, setAnchorEl]);
 
-    const handleDeleteClick = useCallback(() => {
-        onDeleteTrip();
-        setAnchorEl(null);
-    }, [onDeleteTrip, setAnchorEl]);
+    const handleDeleteClick = useCallback(
+        (tripName: string) => {
+            onDeleteTrip(tripName);
+            setAnchorEl(null);
+        },
+        [onDeleteTrip, setAnchorEl],
+    );
 
     const handleOpenPopover = useCallback(
         (event: MouseEvent<HTMLButtonElement>) => {
@@ -184,7 +187,11 @@ const DetailsModal: React.FC<Props> = memo(({ onCloseModal, onEditTrip, onDelete
                                     <ListItem button className={classes.editIcon} onClick={handleEditClick}>
                                         <EditIcon /> Eidt
                                     </ListItem>
-                                    <ListItem button className={classes.deleteIcon} onClick={handleDeleteClick}>
+                                    <ListItem
+                                        button
+                                        className={classes.deleteIcon}
+                                        onClick={() => handleDeleteClick(data.name)}
+                                    >
                                         <DeleteIcon /> Delete
                                     </ListItem>
                                 </List>

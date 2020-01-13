@@ -1,9 +1,9 @@
 import { AlertAction, IAlertState } from ".";
 import AlertTypes from "./types";
 
-export const setShowModal = (alertPayload: IAlertState): AlertAction => ({
+export const setShowAlert = (alertPayload: IAlertState): AlertAction => ({
     type: AlertTypes.ALERT_SHOW,
     payload: alertPayload,
 });
 
-export const setHideModal = (): AlertAction => ({ type: AlertTypes.ALERT_HIDE });
+export const setHideAlert = (): AlertAction => ({ type: AlertTypes.ALERT_HIDE });
