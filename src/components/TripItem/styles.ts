@@ -26,9 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(1),
         },
-        favoriteButton: {
-            marginLeft: theme.spacing(2),
-        },
         chipTick: {
             color: green[500],
         },

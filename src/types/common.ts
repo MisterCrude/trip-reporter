@@ -6,8 +6,7 @@ export enum ModalTypes {
 }
 
 export enum AlertTypes {
-    ALERT_SUCCESS = "ALERT_SUCCESS",
-    ALERT_ERROR = "ALERT_ERROR",
+    ALERT_SHOWN = "ALERT_SHOWN",
     NONE = "NONE",
 }
 

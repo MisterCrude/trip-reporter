@@ -9,6 +9,7 @@ import MasterModal from "@src/containers/MasterModal";
 import TripList from "@src/containers/TripList";
 import Filters from "@src/containers/Filters";
 import Panel from "@src/containers/Panel";
+import Snacksbar from "@src/containers/Snacksbar";
 
 const App: React.FC = () => {
     const dispatchCountries = useDispatch<typeof fetchCountries>(fetchCountries);
@@ -34,6 +35,7 @@ const App: React.FC = () => {
                 <TripList />
             </Container>
             <MasterModal />
+            <Snacksbar />
         </Box>
     );
 };

@@ -5,16 +5,9 @@ import { convertTimeStamp } from "@src/utils/dates";
 import { cutLargeText } from "@src/utils/common";
 import useStyles from "./styles";
 
-import {
-    QueryBuilder as QueryBuilderIcon,
-    FavoriteBorder as FavoriteBorderIcon,
-    Favorite as FavoriteIcon,
-} from "@material-ui/icons";
-import { Card, CardContent, Typography, Divider, Chip, IconButton, Box } from "@material-ui/core";
+import { QueryBuilder as QueryBuilderIcon } from "@material-ui/icons";
+import { Card, CardContent, Typography, Divider, Chip, Box } from "@material-ui/core";
 import CountryBadge from "@src/components/CountryBadge";
-
-// TODO remove this
-const favoriteTrips = ["1", "2"];
 
 interface Props {
     tripData: ITrip;
@@ -22,9 +15,8 @@ interface Props {
 
 const Trip: React.FC<Props> = memo(({ tripData }) => {
     const classes = useStyles();
-    const { id, name, visitedCountries, started, finished, description, transitedCountries } = tripData;
+    const { name, visitedCountries, started, finished, description, transitedCountries } = tripData;
 
-    const isFavoriteTrip = useCallback((tripId: string) => favoriteTrips.includes(tripId), [favoriteTrips]);
     const isTransitedCountry = useCallback((countryId: string) => transitedCountries.includes(countryId), [
         transitedCountries,
     ]);
@@ -36,9 +28,6 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
                     <Typography component="h2" variant="h4">
                         {name}
                     </Typography>
-                    <IconButton className={classes.favoriteButton}>
-                        {isFavoriteTrip(id) ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
-                    </IconButton>
                 </Box>
                 <Chip
                     icon={<QueryBuilderIcon />}

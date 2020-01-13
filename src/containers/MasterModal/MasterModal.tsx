@@ -29,8 +29,8 @@ const MasterModal: React.FC = () => {
             dispatchRemoveTrip(activeTripId);
             handleClose();
             dispatchShowAlert({
-                showAlert: AlertTypes.ALERT_SUCCESS,
-                message: `Trip "${tripName}" was successfully deleted`,
+                showAlert: AlertTypes.ALERT_SHOWN,
+                message: `Trip "${tripName}" was successfully deleted!`,
             });
         },
         [dispatchRemoveTrip, activeTripId, handleClose, dispatchShowAlert],

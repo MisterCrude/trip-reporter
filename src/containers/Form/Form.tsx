@@ -106,8 +106,8 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
                 friends: friendsList,
             });
             dispatchShowAlert({
-                showAlert: AlertTypes.ALERT_SUCCESS,
-                message: `Trip was successfully saves`,
+                showAlert: AlertTypes.ALERT_SHOWN,
+                message: `Trip was successfully saved!`,
             });
             onClose();
         }
