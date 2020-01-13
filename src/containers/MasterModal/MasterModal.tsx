@@ -20,7 +20,7 @@ const MasterModal: React.FC = () => {
     const dispatchRemoveTrip = useDispatch<typeof removeTrip>(removeTrip);
     const dispatchActiveTrip = useDispatch<typeof setActiveTrip>(setActiveTrip);
 
-    const handleClose = useCallback(() => dispatchModal(ModalTypes.NONE), [dispatchModal]);
+    const handleClose = useCallback(() => dispatchModal(), [dispatchModal]);
     const handleEdit = useCallback(() => dispatchModal(ModalTypes.MODAL_EDIT), [dispatchModal]);
     const handleDelete = useCallback(() => {
         dispatchRemoveTrip(activeTripId);

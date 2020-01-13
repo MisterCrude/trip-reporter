@@ -5,6 +5,12 @@ export enum ModalTypes {
     NONE = "NONE",
 }
 
+export enum AlertTypes {
+    ALERT_SUCCESS = "ALERT_SUCCESS",
+    ALERT_ERROR = "ALERT_ERROR",
+    NONE = "NONE",
+}
+
 export interface IFriend {
     id: string;
     name: string;
