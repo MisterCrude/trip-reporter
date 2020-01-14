@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@src/hooks/dispatch";
-import { IAlertState } from "@src/store/alerts";
+import { IAlertsState } from "@src/store/alerts";
 import { setHideAlert } from "@src/store/alerts/actions";
 import { getAlertState } from "@src/store/alerts/selectors";
 import { AlertTypes } from "@src/types/common";
@@ -15,7 +15,7 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
 });
 
 const Snacksbar: React.FC = () => {
-    const alertState: IAlertState = useSelector(getAlertState);
+    const alertState: IAlertsState = useSelector(getAlertState);
 
     const dispatchHideAlert = useDispatch<typeof setHideAlert>(setHideAlert);
 

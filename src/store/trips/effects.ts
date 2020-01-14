@@ -17,7 +17,7 @@ export const editTrip = (trip: ITrip): ITrip[] | undefined => {
 
     if (trips) {
         const filterdTrips = trips.filter((item: ITrip) => item.id !== trip.id);
-        trips = [...filterdTrips, trip];
+        trips = [trip, ...filterdTrips];
 
         addTrips(trips);
     }

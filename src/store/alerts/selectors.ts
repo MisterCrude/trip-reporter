@@ -1,4 +1,4 @@
-import { IAlertState } from ".";
+import { IAlertsState } from ".";
 import { RootState } from "@src/types/store";
 
-export const getAlertState = (state: RootState): IAlertState => state.alerts;
+export const getAlertState = (state: RootState): IAlertsState => state.alerts;
