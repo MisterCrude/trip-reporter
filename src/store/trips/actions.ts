@@ -1,4 +1,4 @@
-import { ThunkDispatch, RootState } from "@src/types/store";
+import { ThunkDispatch } from "@src/types/store";
 import { TripsAction } from ".";
 import * as effects from "./effects";
 import { ITrip } from "@src/types/trip";
@@ -22,6 +22,12 @@ export const addTripsSuccess = (tripsData: ITrip[]): TripsAction => ({
     type: TripsTypes.TRIPS_ADD_LIST,
     payload: tripsData,
 });
+
+export const editTrip = (trip: ITrip) => (dispatch: ThunkDispatch): void => {
+    const withEditedItem = effects.editTrip(trip);
+
+    dispatch(withEditedItem ? addTripsSuccess(withEditedItem) : tripError());
+};
 
 export const addTripSuccess = (tripData: ITrip): TripsAction => ({
     type: TripsTypes.TRIPS_ADD,

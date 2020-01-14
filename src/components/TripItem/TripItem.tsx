@@ -46,7 +46,7 @@ const Trip: React.FC<Props> = memo(({ tripData }) => {
             <Divider />
             <CardContent className={classes.footer}>
                 {visitedCountries.slice(0, 8).map((country: ICountry) => (
-                    <Box mr={1} display="inline-block" key={country.id}>
+                    <Box mr={1} mb={1} display="inline-block" key={country.id}>
                         <CountryBadge countryData={country} isTransited={isTransitedCountry(country.id)} />
                     </Box>
                 ))}

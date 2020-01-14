@@ -1,4 +1,5 @@
 import React, { memo, useState, useCallback } from "react";
+import { ITrip } from "@src/types/trip";
 import { Maybe } from "true-myth";
 import useStyles from "./styles";
 
@@ -7,16 +8,16 @@ import Form from "@src/containers/Form";
 
 interface Props {
     onCloseModal: () => void;
-    isEditModal?: boolean;
+    editModalData?: ITrip;
 }
 
-const FormModal: React.FC<Props> = memo(({ onCloseModal, isEditModal }) => {
+const FormModal: React.FC<Props> = memo(({ onCloseModal, editModalData }) => {
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
     const [hasSaveForm, setHasSaveForm] = useState<boolean>(false);
 
     const classes = useStyles();
 
-    const isEditModalType = Maybe.of(isEditModal);
+    const isEditModalType = Maybe.of<ITrip>(editModalData);
 
     const handleSave = useCallback(() => {
         setHasSaveForm(true);
@@ -30,7 +31,12 @@ const FormModal: React.FC<Props> = memo(({ onCloseModal, isEditModal }) => {
                         {isEditModalType.map(() => "Edit").unwrapOr("Create new")} trip
                     </Typography>
                 </Box>
-                <Form onFormValid={setIsFormValid} saveForm={hasSaveForm} onClose={onCloseModal} />
+                <Form
+                    onFormValid={setIsFormValid}
+                    saveForm={hasSaveForm}
+                    onClose={onCloseModal}
+                    initialData={editModalData}
+                />
             </CardContent>
             <Divider />
             <CardContent className={classes.footer}>

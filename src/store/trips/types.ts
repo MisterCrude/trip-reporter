@@ -1,5 +1,4 @@
 enum TripsTypes {
-    TRIPS_EDIT = "TRIPS_EDIT",
     TRIPS_ADD = "TRIPS_ADD",
     TRIPS_REMOVE = "TRIPS_REMOVE",
     TRIPS_ADD_LIST = "TRIPS_ADD_LIST",

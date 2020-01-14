@@ -14,7 +14,7 @@ import DetailsModal from "@src/components/DetailsModal";
 import FormModal from "@src/components/FormModal";
 
 const MasterModal: React.FC = () => {
-    const activeTripData: ITrip | null = useSelector(getActiveTripData);
+    const activeTripData: ITrip = useSelector(getActiveTripData);
     const showModal: ModalTypes = useSelector(getShowModal);
     const activeTripId: string = useSelector(getActiveTrip);
     const dispatchModal = useDispatch<typeof setShowModal>(setShowModal);
@@ -60,7 +60,9 @@ const MasterModal: React.FC = () => {
                             activeTripData={activeTripData}
                         />
                     )}
-                    {showModal === ModalTypes.MODAL_EDIT && <FormModal isEditModal onCloseModal={handleClose} />}
+                    {showModal === ModalTypes.MODAL_EDIT && (
+                        <FormModal editModalData={activeTripData} onCloseModal={handleClose} />
+                    )}
                     {showModal === ModalTypes.MODAL_ADD && <FormModal onCloseModal={handleClose} />}
                 </Box>
             </Fade>

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, MouseEvent } from "react";
+import React, { memo, useCallback, MouseEvent, Fragment } from "react";
 import { Maybe } from "true-myth";
 import { ITrip } from "@src/types/trip";
 import { IFriend } from "@src/types/common";
@@ -103,7 +103,7 @@ const DetailsModal: React.FC<Props> = memo(({ onCloseModal, onEditTrip, onDelete
                                 </Typography>
                             </Box>
 
-                            {!!data.visitedCountries.length && (
+                            {data.visitedCountries.length > data.transitedCountries.length && (
                                 <Box mt={4}>
                                     <Box display="flex" alignItems="center" mb={3}>
                                         <Typography variant="h6" component="h3">
@@ -113,9 +113,13 @@ const DetailsModal: React.FC<Props> = memo(({ onCloseModal, onEditTrip, onDelete
                                     </Box>
 
                                     {data.visitedCountries.map((country: ICountry) => (
-                                        <Box display="inline-block" mr={1} mb={1} key={country.id}>
-                                            <CountryBadge key={country.id} countryData={country} isTransited={false} />
-                                        </Box>
+                                        <Fragment key={country.id}>
+                                            {!isCountryTransited(data.transitedCountries, country.id) && (
+                                                <Box display="inline-block" mr={1} mb={1}>
+                                                    <CountryBadge countryData={country} isTransited={false} />
+                                                </Box>
+                                            )}
+                                        </Fragment>
                                     ))}
                                 </Box>
                             )}
@@ -130,13 +134,13 @@ const DetailsModal: React.FC<Props> = memo(({ onCloseModal, onEditTrip, onDelete
                                     </Box>
 
                                     {data.visitedCountries.map((country: ICountry) => (
-                                        <Box key={country.id} display="inline-block">
+                                        <Fragment key={country.id}>
                                             {isCountryTransited(data.transitedCountries, country.id) && (
-                                                <Box display="inline-block" mr={1} mb={1} key={country.id}>
+                                                <Box display="inline-block" mr={1} mb={1}>
                                                     <CountryBadge countryData={country} isTransited={true} />
                                                 </Box>
                                             )}
-                                        </Box>
+                                        </Fragment>
                                     ))}
                                 </Box>
                             )}

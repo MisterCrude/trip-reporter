@@ -12,4 +12,16 @@ export const removeTrip = (tripId: string): boolean => {
     return trips ? addTrips(trips.filter(trip => trip.id !== tripId)) : false;
 };
 
+export const editTrip = (trip: ITrip): ITrip[] | undefined => {
+    let trips = getState<ITrip>(COMMON.STORE_DATA_NAME);
+
+    if (trips) {
+        const filterdTrips = trips.filter((item: ITrip) => item.id !== trip.id);
+        trips = [...filterdTrips, trip];
+
+        addTrips(trips);
+    }
+    return trips;
+};
+
 export const fetchTrips = (): ITrip[] | undefined => getState<ITrip>(COMMON.STORE_DATA_NAME);

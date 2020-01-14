@@ -6,8 +6,9 @@ import { getRandomFriend } from "@src/utils/friends";
 import { getTodayDate, getDaysDifference } from "@src/utils/dates";
 import { IFriend, AlertTypes } from "@src/types/common";
 import { ICountry } from "@src/types/countries";
+import { ITrip } from "@src/types/trip";
 import { getCountriesList } from "@src/store/countries/selectors";
-import { addTrip } from "@src/store/trips/actions";
+import { addTrip, editTrip } from "@src/store/trips/actions";
 import { setShowAlert } from "@src/store/alerts/actions";
 import { COMMON } from "@src/config";
 
@@ -21,11 +22,13 @@ interface Props {
     saveForm: boolean;
     onFormValid: (state: boolean) => void;
     onClose: () => void;
+    initialData?: ITrip;
 }
 
-const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
+const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose, initialData }) => {
     const countriesList: ICountry[] = useSelector(getCountriesList);
     const dispatchAddTrip = useDispatch<typeof addTrip>(addTrip);
+    const dispatchEditTrip = useDispatch<typeof editTrip>(editTrip);
     const dispatchShowAlert = useDispatch<typeof setShowAlert>(setShowAlert);
 
     const [loadingFriendId, setLoadingFriendId] = useState<string>("");
@@ -62,6 +65,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
     const handleTransitedTrigger = useCallback(
         (id: string, event: MouseEvent) => {
             event.stopPropagation();
+
             setTransitedCountriesId(
                 isCountryTransited(id)
                     ? transitedCountriesId.filter(filteredId => filteredId !== id)
@@ -89,13 +93,23 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
         setChosenCountries,
     ]);
 
+    useEffect(() => {
+        if (initialData) {
+            const { name, visitedCountries, transitedCountries, started, finished, description, friends } = initialData;
+
+            setTripNameValue(name);
+            setChosenCountries(visitedCountries);
+            setTransitedCountriesId(transitedCountries);
+            setStartedDateValue(new Date(started));
+            setFinishedDateValue(new Date(finished));
+            setDescriptionValue(description);
+            setFriendsList(friends);
+        }
+    }, [initialData]);
     useEffect(() => onFormValid(isFormValid()), [onFormValid, isFormValid]);
     useEffect(() => {
-        if (chosenCountries.length) setTransitedCountriesId([]);
-    }, [chosenCountries, setTransitedCountriesId]);
-    useEffect(() => {
         if (saveForm) {
-            dispatchAddTrip({
+            const tripData = {
                 name: tripNameValue,
                 visitedCountries: chosenCountries,
                 transitedCountries: transitedCountriesId,
@@ -104,7 +118,10 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
                 duration: getDaysDifference(startedDateValue, finishedDateValue),
                 description: descriptionValue,
                 friends: friendsList,
-            });
+            };
+
+            initialData ? dispatchEditTrip({ id: initialData.id, ...tripData }) : dispatchAddTrip(tripData);
+
             dispatchShowAlert({
                 showAlert: AlertTypes.ALERT_SHOWN,
                 message: `Trip was successfully saved!`,
@@ -112,7 +129,9 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose }) => {
             onClose();
         }
     }, [
+        initialData,
         saveForm,
+        dispatchEditTrip,
         dispatchAddTrip,
         onClose,
         tripNameValue,

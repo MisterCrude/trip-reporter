@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme: Theme) =>
         footer: {
             background: theme.palette.grey[50],
             "&, &:last-child": {
-                padding: theme.spacing(2, 4),
+                paddingTop: theme.spacing(2),
+                paddingBottom: theme.spacing(1),
+                paddingLeft: theme.spacing(4),
+                paddingRight: theme.spacing(4),
             },
         },
         description: {

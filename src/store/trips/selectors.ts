@@ -9,5 +9,5 @@ export const getActiveTrip = (state: RootState): string => state.trips.active;
 export const getActiveTripData = createSelector(
     getTripsList,
     getActiveTrip,
-    (list: ITrip[], id: string): ITrip | null => list.find((item: ITrip) => item.id === id) || null,
+    (list: ITrip[], id: string): ITrip => list.find((item: ITrip) => item.id === id) as ITrip,
 );
