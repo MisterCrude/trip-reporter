@@ -9,6 +9,8 @@ const useStyles = makeStyles((theme: Theme) =>
             width: "1000px",
             outline: "none",
             position: "absolute",
+            marginTop: theme.spacing(8),
+            marginBottom: theme.spacing(8),
         },
         title: {
             textTransform: "uppercase",

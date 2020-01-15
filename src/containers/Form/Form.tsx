@@ -147,7 +147,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose, initialData }) 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container spacing={4}>
-                <Grid item md={12}>
+                <Grid item xs={12}>
                     <TextField
                         fullWidth
                         name="tripName"
@@ -164,7 +164,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose, initialData }) 
                         onChange={handleTextFieldChange}
                     />
                 </Grid>
-                <Grid item md={12}>
+                <Grid item xs={12}>
                     <Autocomplete
                         multiple
                         value={chosenCountries}
@@ -206,7 +206,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose, initialData }) 
                         </Box>
                     )}
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} sm={6}>
                     <DatePicker
                         fullWidth
                         disableToolbar
@@ -218,7 +218,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose, initialData }) 
                         onChange={handleChangeStartedDate}
                     />
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} sm={6}>
                     <DatePicker
                         fullWidth
                         disableToolbar
@@ -231,7 +231,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose, initialData }) 
                         onChange={handleChangeFinishedDate}
                     />
                 </Grid>
-                <Grid item md={12}>
+                <Grid item xs={12}>
                     <TextField
                         fullWidth
                         multiline
@@ -250,7 +250,7 @@ const Form: React.FC<Props> = ({ onFormValid, saveForm, onClose, initialData }) 
                         onChange={handleTextFieldChange}
                     />
                 </Grid>
-                <Grid item md={12}>
+                <Grid item xs={12}>
                     <Box mb={2}>
                         <Fab
                             variant="extended"

@@ -9,7 +9,7 @@ import { getTripsList } from "@src/store/trips/selectors";
 import { ModalTypes } from "@src/types/common";
 import { ITrip } from "@src/types/trip";
 
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import TripItem from "@src/components/TripItem";
 
 const TripList: React.FC = () => {
@@ -38,11 +38,17 @@ const TripList: React.FC = () => {
 
     return (
         <Grid container spacing={2} direction="column">
-            {filteredTrips.map(tripData => (
-                <Grid item key={tripData.id} onClick={() => handleTripClick(tripData.id)}>
-                    <TripItem tripData={tripData} />
-                </Grid>
-            ))}
+            {filteredTrips.length ? (
+                filteredTrips.map((tripData: ITrip) => (
+                    <Grid item key={tripData.id} onClick={() => handleTripClick(tripData.id)}>
+                        <TripItem tripData={tripData} />
+                    </Grid>
+                ))
+            ) : (
+                <Typography variant="h5" component="h3" align="center">
+                    No data for showing!
+                </Typography>
+            )}
         </Grid>
     );
 };

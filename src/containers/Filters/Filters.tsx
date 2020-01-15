@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useCallback, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import { useDispatch } from "@src/hooks/dispatch";
-
 import { setFilters } from "@src/store/filters/actions";
 
 import { TextField, Box } from "@material-ui/core";
@@ -10,12 +9,7 @@ const Filters: React.FC = () => {
 
     const [queryString, setQueryString] = useState("");
 
-    const handleQueryStringChange = useCallback(
-        (event: ChangeEvent<HTMLInputElement>) => {
-            setQueryString(event.target.value);
-        },
-        [setQueryString],
-    );
+    const handleQueryStringChange = (event: ChangeEvent<HTMLInputElement>) => setQueryString(event.target.value);
 
     useEffect(() => {
         dispatchFilters(queryString);

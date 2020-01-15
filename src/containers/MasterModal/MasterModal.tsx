@@ -42,6 +42,7 @@ const MasterModal: React.FC = () => {
 
     return (
         <Modal
+            style={{ overflowY: "auto" }}
             open={showModal !== ModalTypes.NONE}
             onClose={handleClose}
             closeAfterTransition
@@ -51,7 +52,7 @@ const MasterModal: React.FC = () => {
             }}
         >
             <Fade in={showModal !== ModalTypes.NONE}>
-                <Box>
+                <Box display="flex" justifyContent="center">
                     {showModal === ModalTypes.MODAL_DETAILS && (
                         <DetailsModal
                             onCloseModal={handleClose}
