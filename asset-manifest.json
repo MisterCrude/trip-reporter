@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/trip-reporter/static/js/main.7f09a4d4.chunk.js",
+    "main.js.map": "/trip-reporter/static/js/main.7f09a4d4.chunk.js.map",
+    "runtime-main.js": "/trip-reporter/static/js/runtime-main.6cdba916.js",
+    "runtime-main.js.map": "/trip-reporter/static/js/runtime-main.6cdba916.js.map",
+    "static/js/2.15df0e80.chunk.js": "/trip-reporter/static/js/2.15df0e80.chunk.js",
+    "static/js/2.15df0e80.chunk.js.map": "/trip-reporter/static/js/2.15df0e80.chunk.js.map",
+    "index.html": "/trip-reporter/index.html",
+    "precache-manifest.c22c9225aff4fd82dce64d885574f6d9.js": "/trip-reporter/precache-manifest.c22c9225aff4fd82dce64d885574f6d9.js",
+    "service-worker.js": "/trip-reporter/service-worker.js",
+    "static/js/2.15df0e80.chunk.js.LICENSE": "/trip-reporter/static/js/2.15df0e80.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6cdba916.js",
+    "static/js/2.15df0e80.chunk.js",
+    "static/js/main.7f09a4d4.chunk.js"
+  ]
+}
