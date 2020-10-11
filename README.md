@@ -9,4 +9,4 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Builds the app for production to the `build` folder.<br />
 
-### [Demo](http://ivyman.github.io/trip-reporter)
+### [Demo](http://mistercrude.github.io/trip-reporter)
